@@ -5,7 +5,7 @@ pipeline {
         stage('Hello') {
             steps {
                 echo 'Hello World'
-                println "${JOB_NAME}"
+                println "${GIT_COMMIT}"
                 echo "Another method is to use \${BUILD_NUMBER}, which is ${BUILD_NUMBER}"
             }
         }
