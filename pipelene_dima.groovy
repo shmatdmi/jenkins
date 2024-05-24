@@ -5,7 +5,7 @@ pipeline {
         stage('Hello') {
             steps {
                 echo 'Hello World'
-                println ${JOB_NAME}
+                println '${JOB_NAME}'
             }
         }
     }
