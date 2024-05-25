@@ -1,6 +1,6 @@
 def jenkinsAgent = any
 pipeline {
-    agent "${jenkinsAgent}"
+    agent any
 //    agent {
 //        node {
 //            label "${jenkinsAgent}"
