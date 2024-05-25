@@ -6,9 +6,9 @@ pipeline {
         }
     }
     options {
-        timeout(time: 5, unit: 'HOURS')
+ //       timeout(time: 5, unit: 'HOURS')
  //       ansiColor('xterm')
-        timestamps()
+ //       timestamps()
     }
     parameters {
         booleanParam(name: "dryrun", defaultValue: true, description: "Тестовый запуск")
