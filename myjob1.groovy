@@ -1,4 +1,4 @@
-def jenkinsAgent = 'masterLin'
+def jenkinsAgent = 'any'
 pipeline {
     agent {
         node {
