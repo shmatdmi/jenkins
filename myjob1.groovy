@@ -1,14 +1,15 @@
 def jenkinsAgent = any
 pipeline {
-    agent {
-        node {
-            label "${jenkinsAgent}"
+    agent "${jenkinsAgent}"
+//    agent {
+//        node {
+//            label "${jenkinsAgent}"
         }
     }
     options {
- //       timeout(time: 5, unit: 'HOURS')
+        timeout(time: 5, unit: 'HOURS')
  //       ansiColor('xterm')
- //       timestamps()
+        timestamps()
     }
     parameters {
         booleanParam(name: "dryrun", defaultValue: true, description: "Тестовый запуск")
