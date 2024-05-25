@@ -25,6 +25,7 @@ pipeline {
         stage("Test") {
             steps {
                 echo "Test stage."
+                echo "Hello $params.version"
             }
         }
         stage("Release") {
