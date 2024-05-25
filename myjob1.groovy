@@ -6,7 +6,7 @@ pipeline {
         text(name: "releaseNotes", defaultValue: "Добавлены новые feature", description: "Описание изменений в релизе")
         password(name: "password", defaultValue: "changeme", description: "Введите пароль")
         choice(name: "env", choices: ["PROD", "DEV", "UAT"], description: "Sample multi-choice parameter")
-        string(name: "web", defaultValue "http://mskweather.ru", trim: true, description: "Введите адрес сайта")
+//        string(name: "web", defaultValue "http://mskweather.ru", trim: true, description: "Введите адрес сайта")
     }
     stages {
         stage('DryRun') {
@@ -28,7 +28,7 @@ pipeline {
                 echo "Test stage."
                 sh 'curl --version'
 //                sh 'curl -X -k POST http://mskweather.ru/'
-                echo "$params.web"
+//                echo "$params.web"
                 sh 'curl -v -k http://mskweather.ru'
             }
         }
