@@ -1,5 +1,15 @@
+def jenkinsAgent = 'masterLin'
 pipeline {
-    agent any
+    agent {
+        node {
+            label "${jenkinsAgent}"
+        }
+    }
+    options {
+        timeout(time: 5, unit: 'HOURS')
+        ansiColor('xterm')
+        timestamps()
+    }
     parameters {
         booleanParam(name: "dryrun", defaultValue: true, description: "Тестовый запуск")
         string(name: "version", defaultValue: "r48", trim: true, description: "Введите версию компонента")
@@ -28,7 +38,7 @@ pipeline {
                 echo "Test stage."
                 echo "Hello $params.version"
                 sleep 10
-                pwd
+                echo "$TAG_TIMESTAMP"
                 sleep 5
                 echo "$BUILD_DISPLAY_NAME"
             }
