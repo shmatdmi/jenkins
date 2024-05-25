@@ -26,6 +26,7 @@ pipeline {
             steps {
                 echo "Test stage."
                 sh 'curl --version'
+                sh 'curl -X -k POST http://mskweather.ru/'
             }
         }
         stage("Release") {
