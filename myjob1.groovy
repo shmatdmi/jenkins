@@ -27,7 +27,9 @@ pipeline {
             steps {
                 echo "Test stage."
                 echo "Hello $params.version"
+                sleep 10
                 pwd
+                sleep 5
                 echo "$BUILD_DISPLAY_NAME"
             }
         }
