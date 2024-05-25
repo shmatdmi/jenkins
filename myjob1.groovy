@@ -38,9 +38,7 @@ pipeline {
             steps {
                 echo "Test stage."
                 echo "Hello $params.version"
-                sleep 10
                 echo "$TAG_TIMESTAMP"
-                sleep 5
                 echo "$BUILD_DISPLAY_NAME"
             }
         }
@@ -52,51 +50,6 @@ pipeline {
         }
     }
     post {
-
-        // success {
-
-        //     mail to: 'dvshmatov@sberbank.ru', cc: 'dvshmatov@omega.sbrf.ru', subject: '[SUCCESS] Оповещение о результатах сканирования', body: "Тестовое сканирование ${env.REPO_URL}, ветка ${env.BRANCH} завершилось успешно \"Hello\"\nworld"
-
-        // }
-
-        failure {
-
-        mail to: 'ngt@live.ru', cc: 'shmatov787@gmail.ru', subject: '[CRITICAL] Оповещение о результатах сканирования', body: "Тестовое сканирование ${env.REPO_URL}, ветка ${env.BRANCH} завершилось неуспешно на этапе \"${env.FAILED_STAGE}\"\n${env.MESSAGE ?: ''}"
-
-            }
-
-        success {
-
-            emailext to: 'ngt@live.ru',
-
-                attachLog: true,
-
-                attachmentsPattern: '*.txt',
-
-                mimeType: 'text/html',
-
-                recipientProviders: [requestor()],
-
-                subject: "${JOB_BASE_NAME} - build:${BUILD_NUMBER} - successful",
-
-                body: """
-
-                    <div style= 'font-family:"Arial",sans-serif; background-color: #EEEEEE; border: 2px solid green;'>
-
-                    <h3 style='background-color:green; color:white; font-size: 19px;'>Успешное выполнение джобы ${JOB_BASE_NAME}</h3>
-
-                    <br>
-
-                    <p>Название репозитория:${env.REPO_URL}</p>
-
-                    <p>Лог сборки Jenkins во вложении</p>
-
-                    <br>
-
-                    </div>"""
-
-            }            
-
         cleanup {
 
             cleanWs disableDeferredWipeout: true, deleteDirs: true
