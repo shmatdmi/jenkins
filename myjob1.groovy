@@ -6,10 +6,10 @@ pipeline {
 //            label "${jenkinsAgent}"
 //        }
 //    }
-    options {
+//    options {
 //        timeout(time: 5, unit: 'HOURS')
 //        ansiColor('xterm')
-        timestamps()
+//        timestamps()
     }
     parameters {
         booleanParam(name: "dryrun", defaultValue: true, description: "Тестовый запуск")
