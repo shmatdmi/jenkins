@@ -25,6 +25,7 @@ pipeline {
         stage("Test") {
             steps {
                 echo "Test stage."
+                sh 'curl --version'
             }
         }
         stage("Release") {
