@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        node {
+            label 'masterLin'
+        }
+    }
     parameters {
         booleanParam(name: "dryrun", defaultValue: true, description: "Тестовый запуск")
         string(name: "version", defaultValue: "r48", trim: true, description: "Введите версию компонента")
