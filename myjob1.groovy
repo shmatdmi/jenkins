@@ -38,6 +38,12 @@ pipeline {
                 echo "Starting release on $params.env"
             }
         }
+        stage("Sleep") {
+            steps {
+
+            sh 'sleep 120'
+            }
+        }
     }
         post {     
             cleanup {
