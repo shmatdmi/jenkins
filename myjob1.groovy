@@ -1,7 +1,7 @@
 pipeline {
     agent {
         node {
-            label 'masterLin'
+            label 'ubuntu'
         }
     }
     parameters {
