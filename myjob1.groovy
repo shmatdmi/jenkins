@@ -48,8 +48,10 @@ pipeline {
 
             sh 'sleep 10'
             sh 'ls'
+            sh 'rm -rf R*'
+            sh 'ls'
             println 123 + 234
-            println 234 * 345 * 500
+            println 234 * 345 * 500 * 2345 * 545223
             }
         }
     }
