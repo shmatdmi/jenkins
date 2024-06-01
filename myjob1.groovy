@@ -47,6 +47,11 @@ pipeline {
             steps {
 
             sh 'sleep 10'
+            ll
+            println 123 + 234
+            println 234 * 345 * 500
+            A = 457 * 345
+            print A 
             }
         }
     }
