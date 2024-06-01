@@ -47,7 +47,7 @@ pipeline {
             steps {
 
             sh 'sleep 10'
-            ls
+            sh 'ls'
             println 123 + 234
             println 234 * 345 * 500
             }
