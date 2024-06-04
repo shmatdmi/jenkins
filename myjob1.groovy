@@ -1,5 +1,5 @@
 pipeline {
-    agent 'Jenkins'
+    "agent Jenkins"
 //    agent {
 //       node {
 //            label 'any'
