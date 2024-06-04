@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent 'Jenkins'
 //    agent {
 //       node {
 //            label 'any'
@@ -9,7 +9,6 @@ pipeline {
         booleanParam(name: "dryrun", defaultValue: true, description: "Тестовый запуск")
         booleanParam(name: "curl", defaultValue: true, description: "Запрос к сайту")
         string(name: "version", defaultValue: "r48", trim: true, description: "Введите версию компонента")
-        text(name: "releaseNotes", defaultValue: "Добавлены новые feature", description: "Описание изменений в релизе")
         password(name: "password", defaultValue: "changeme", description: "Введите пароль")
         choice(name: "env", choices: ["PROD", "DEV", "UAT"], description: "Sample multi-choice parameter")
     }
