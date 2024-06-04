@@ -23,7 +23,7 @@ pipeline {
             }
             steps {
                     echo "\033[32m==========================New commit stage==========================\033[0m"
-                    sshUserPrivateKey(['dima-ssh-private']) {
+                    sshagent(['dima-ssh-private']) {
                     sh "git checkout ${env.BRANCH_TO_SCAN}"
                     writeFile file: 'code.groovy', text: "echo '${new Date()} [${env.BUILD_NUMBER}]'\necho '${env.BRANCH_TO_SCAN} of ${env.GIT_URL}'\necho '${UUID.randomUUID().toString()}'"
                     sh 'git add code.groovy'
