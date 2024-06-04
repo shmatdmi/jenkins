@@ -9,7 +9,7 @@ pipeline {
         booleanParam(name: "dryrun", defaultValue: true, description: "Тестовый запуск")
         booleanParam(name: "curl", defaultValue: true, description: "Запрос к сайту")
         booleanParam(name: "new_commit", defaultValue: true, description: "Создание нового коммита")
-        string(name: "BRANCH_TO_SCAN", defaultValue: "env.BRANCH_TO_SCAN", trim: true, description: "Ветка для сканирования")
+        string(name: "BRANCH_TO_SCAN", defaultValue: "main", trim: true, description: "Ветка для сканирования")
         string(name: "version", defaultValue: "r48", trim: true, description: "Введите версию компонента")
         password(name: "password", defaultValue: "changeme", description: "Введите пароль")
         choice(name: "env", choices: ["PROD", "DEV", "UAT"], description: "Sample multi-choice parameter")
