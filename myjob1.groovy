@@ -6,9 +6,9 @@ pipeline {
 //        }
 //    }
     parameters {
-        booleanParam(name: "dryrun", defaultValue: true, description: "Тестовый запуск")
+        booleanParam(name: "dryrun", defaultValue: false, description: "Тестовый запуск")
         booleanParam(name: "curl", defaultValue: true, description: "Запрос к сайту")
-        booleanParam(name: "new_commit", defaultValue: false, description: "Создание нового коммита")
+        booleanParam(name: "new_commit", defaultValue: true, description: "Создание нового коммита")
         string(name: "BRANCH_TO_SCAN", defaultValue: "main", trim: true, description: "Ветка для сканирования")
         choice(name: "env", choices: ["PROD", "DEV", "IFT"], description: "Sample multi-choice parameter")
     }
@@ -62,7 +62,7 @@ pipeline {
             steps {
                 echo "Test stage."
                 sh 'curl --version'
-                sh 'curl -v -k http://mskweather.ru'
+                sh 'curl -k http://mskweather.ru'
             }
         }
         stage("Release") {
