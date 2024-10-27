@@ -74,7 +74,7 @@ pipeline {
         stage("Sleep") {
             steps {
             sh 'sleep 10'
-            sh 'ls' && 'pwd'
+            sh 'ls'
             sh 'ls'
             println 123 + 234
             println 234 * 345 * 500 * 2345 * 545223
