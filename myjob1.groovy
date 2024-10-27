@@ -10,9 +10,7 @@ pipeline {
         booleanParam(name: "curl", defaultValue: true, description: "Запрос к сайту")
         booleanParam(name: "new_commit", defaultValue: false, description: "Создание нового коммита")
         string(name: "BRANCH_TO_SCAN", defaultValue: "main", trim: true, description: "Ветка для сканирования")
-        string(name: "version", defaultValue: "r48", trim: true, description: "Введите версию компонента")
-        password(name: "password", defaultValue: "changeme", description: "Введите пароль")
-        choice(name: "env", choices: ["PROD", "DEV", "UAT"], description: "Sample multi-choice parameter")
+        choice(name: "env", choices: ["PROD", "DEV", "IFT"], description: "Sample multi-choice parameter")
     }
     stages {
         stage("Подготовка нового коммита для сканирования") {
@@ -67,12 +65,6 @@ pipeline {
                 sh 'curl -v -k http://mskweather.ru'
             }
         }
-        stage("Build") {
-            steps {
-                echo "Build stage."
-                echo "Hello $params.version"
-            }
-        }
         stage("Release") {
             steps {
                 echo "Defined release notes $params.releaseNotes"
@@ -82,8 +74,7 @@ pipeline {
         stage("Sleep") {
             steps {
             sh 'sleep 10'
-            sh 'ls'
-            sh 'rm -rf R*'
+            sh 'ls' && 'pwd'
             sh 'ls'
             println 123 + 234
             println 234 * 345 * 500 * 2345 * 545223
