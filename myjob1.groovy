@@ -5,6 +5,9 @@ pipeline {
 //            label 'any'
 //        }
 //    }
+    options {
+        timestamps()
+    }
     parameters {
         booleanParam(name: "dryrun", defaultValue: false, description: "Тестовый запуск")
         booleanParam(name: "curl", defaultValue: true, description: "Запрос к сайту")
@@ -14,6 +17,9 @@ pipeline {
     }
     stages {
         stage("Подготовка нового коммита для сканирования") {
+            options {
+                timeout(time: 1, unit: 'MINUTES')
+            }
             when {
                 expression {
                     return params.new_commit
