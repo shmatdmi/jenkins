@@ -7,6 +7,7 @@ pipeline {
 //    }
     options {
         timestamps()
+        ansiColor('xterm')
     }
     parameters {
         booleanParam(name: "dryrun", defaultValue: false, description: "Тестовый запуск")
