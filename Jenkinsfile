@@ -7,7 +7,7 @@ pipeline {
 
         stage("Checkout Git") {
             steps {
-                git branch: 'main', url: 'git@github.com:shmatdmi/jenkins.git'
+                git branch: 'main', url: 'https://github.com/shmatdmi/jenkins.git'
             }
         }
         stage("Unit Test") {
