@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent any
     triggers {
         cron('H */10 * * 1-5')
     }
@@ -27,7 +27,6 @@ pipeline {
     }
     stages {
         stage('Examle username password') {
-            agent any
             environment {
                 SERVICE_CRED = credentials('github_cred')
             }
@@ -45,7 +44,6 @@ pipeline {
             }
         }
         stage('Build') {
-            agent any
             steps {
                 echo "\033[31m==========================Envirenments==========================\033[0m"
                 echo "build ${env.BUILD_ID} on ${env.JENKINS_URL}"
