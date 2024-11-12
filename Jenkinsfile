@@ -19,7 +19,6 @@ pipeline {
                     or $SERVICE_CREDS_USR
                     or $SERVICE_CREDS_PSW */
                 echo "Service user is $SERVICE_CREDS_USR"
-                sh 'echo "Service password is $SERVICE_CREDS_PSW"'
             }
         }
         stage('Build') {
