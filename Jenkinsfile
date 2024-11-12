@@ -1,5 +1,7 @@
 pipeline {
     agent none
+    options
+        timestamps()
     stages {
         stage('Build') {
             agent any
@@ -12,6 +14,13 @@ pipeline {
             steps {
                 echo 'test'
             }
-        } 
+        }
+        stage('Deploy') {
+            agent any
+            steps {
+                echo 'deploy'
+                sh 'ls -la'
+            }
+        }
     }   
 }
