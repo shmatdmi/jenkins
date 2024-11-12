@@ -6,6 +6,7 @@ pipeline {
     options {
         timestamps()
         ansiColor('xterm')
+        timeout(time: 1, unit: 'MINUTES')
     }
     stages {
         stage('Examle username password') {
