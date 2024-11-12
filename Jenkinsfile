@@ -29,6 +29,7 @@ pipeline {
                 echo "This is path ${env.javaVersion}"
                 echo "This is path $javaVersion"
                 sh 'printenv'
+                sleep 70
             }
         }
     }
