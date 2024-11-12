@@ -64,20 +64,13 @@ pipeline {
             mail to: 'shmatov787@gmail.com',
             subject: "Completed Pipeline: ${currentBuild.fullDisplayName}",
             body: "Your build completed, please check: ${env.BUILD_URL}"
+            echo 'Im successed'
         }
         failure {
             mail to: 'shmatov787@gmail.com',
             subject: "Failure project - Jenkins Pipeline: ${currentBuild.fullDisplayName}",
             body: "Your build FAILED, please check: ${env.BUILD_URL}"
-        }
-        success {
-           echo 'Im successed'
-        }
-        failure {
-           echo 'Im failed'
-        }        
-        aborted {
-           echo 'Project aborted'
+            echo 'Im failed'
         }
     }   
 }
