@@ -18,7 +18,7 @@ pipeline {
                     of $SERVICE_CREDS
                     or $SERVICE_CREDS_USR
                     or $SERVICE_CREDS_PSW */
-                echo "Service user is $SERVICE_CREDS_USR"
+                echo "Service user is $SERVICE_CRED"
             }
         }
         stage('Build') {
