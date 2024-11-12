@@ -1,7 +1,8 @@
 pipeline {
     agent none
-    options
+    options {
         timestamps()
+    }
     stages {
         stage('Build') {
             agent any
