@@ -88,10 +88,19 @@ pipeline {
             }
         }
     }
-        post {     
-            cleanup {
+    post {
+        cleanup {
                 cleanWs disableDeferredWipeout: true, deleteDirs: true
             }
-
+        success {
+            mail to: 'shmatov787@gmail.com',
+            subject: "Completed Pipeline: ${currentBuild.fullDisplayName}",
+            body: "Your build completed, please check: ${env.BUILD_URL}"
+        }
+        failure {
+            mail to: 'shmatov787@gmail.com',
+            subject: "Failure project - Jenkins Pipeline: ${currentBuild.fullDisplayName}",
+            body: "Your build FAILED, please check: ${env.BUILD_URL}"
+        }
     }
 }
