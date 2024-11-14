@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+    parameters{
+        string(name: "NameVar")
+    }
+    tools {
+        maven 'Maven3'
+    }
+    stages {
+        stage('Hello') {
+            steps {
+                sh 'mvn --version'
+                echo "Name: ${params.NameVar}"
+            }
+        }
+    }
+}
