@@ -58,7 +58,7 @@ pipeline {
             }
             steps {
                 echo "THIS IS DRYRUN!"
-                echo "Branch name: ${params.RANCH_TO_SCAN}"
+                echo "Branch name: ${params.BRANCH_TO_SCAN}"
             }
         }
         stage ('curl') {
