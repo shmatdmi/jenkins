@@ -49,7 +49,7 @@ pipeline {
                 sh '''
                   cd ./apps
                   if [ -f "${FILENAME}" ]; then
-                    echo "${FILENAME} exists"
+                    sh 'curl -k http://mskweather.ru'
                     ALREADY_EXISTS="true"
                   else
                     echo "${FILENAME} does not exist"
