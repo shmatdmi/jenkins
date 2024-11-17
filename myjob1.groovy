@@ -16,7 +16,6 @@ pipeline {
     parameters {
         booleanParam(name: 'curl', defaultValue: false, description: 'Запрос к сайту')
         booleanParam(name: 'new_commit', defaultValue: true, description: 'Создание нового коммита')
-        booleanParam(name: 'git', defaultValue: false, description: 'git checkout on if else stage')
         booleanParam(name: 'if', defaultValue: true, description: 'if else stage')
         string(name: 'BRANCH_TO_SCAN', defaultValue: 'main', trim: true, description: 'Ветка для сканирования')
         choice(name: 'env', choices: ['PROD', 'DEV', 'IFT'], description: 'Sample multi-choice parameter')
