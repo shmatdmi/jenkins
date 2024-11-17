@@ -49,7 +49,7 @@ pipeline {
                 sh '''
                   cd ./apps
                   if [ -f "${FILENAME}" ]; then
-                    sh 'ls -la'
+                    echo "${FILENAME} exists"
                     ALREADY_EXISTS="true"
                   else
                     echo "${FILENAME} does not exist"
