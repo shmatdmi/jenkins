@@ -103,6 +103,8 @@ pipeline {
                         echo "${test}"
                         name = "Dima"
                         echo "$name"
+                        x = 3
+                        println x * 3
                     }
                 }
                 sleep 10
