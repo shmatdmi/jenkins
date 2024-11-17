@@ -31,7 +31,7 @@ pipeline {
                     url: "https://github.com/shmatdmi/jenkins.git",
                     branch: "main",
                     changelog: true,
-                    credentialsId: 'mycreds',
+                    //credentialsId: 'mycreds',
                     poll: true
                 )
             }
@@ -75,8 +75,8 @@ pipeline {
                     sh "git checkout ${env.BRANCH_TO_SCAN}"
                     writeFile file: 'code.groovy', text: "echo '${new Date()} [${env.BUILD_NUMBER}]'\necho '${env.BRANCH_TO_SCAN} of ${env.GIT_URL}'\necho '${UUID.randomUUID().toString()}'"
                     sh 'git add code.groovy'
-                    sh 'git config --global user.email "dima@example.com"'
-                    sh 'git config --global user.name "Dima"'
+                    //sh 'git config --global user.email "dima@example.com"'
+                    //sh 'git config --global user.name "Dima"'
                     sh "git commit -am \"Auto #${env.BUILD_NUMBER}\""
                     sh "git push origin ${env.BRANCH_TO_SCAN}:${env.BRANCH_TO_SCAN}"
                     }
