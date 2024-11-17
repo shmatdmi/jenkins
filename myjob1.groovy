@@ -12,7 +12,7 @@ pipeline {
     }
     parameters {
         booleanParam(name: 'dryrun', defaultValue: false, description: 'Тестовый запуск')
-        booleanParam(name: 'curl', defaultValue: true, description: 'Запрос к сайту')
+        booleanParam(name: 'curl', defaultValue: false, description: 'Запрос к сайту')
         booleanParam(name: 'new_commit', defaultValue: true, description: 'Создание нового коммита')
         booleanParam(name: 'if', defaultValue: true, description: 'if else stage')
         string(name: 'BRANCH_TO_SCAN', defaultValue: 'main', trim: true, description: 'Ветка для сканирования')
