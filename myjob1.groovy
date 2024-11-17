@@ -1,23 +1,24 @@
 pipeline {
     agent any
-//    agent {
-//       node {
-//            label 'any'
-//        }
-//    }
+    //    agent {
+    //       node {
+    //            label 'any'
+    //        }
+    //    }
+
     options {
         timestamps()
         ansiColor('xterm')
     }
     parameters {
-        booleanParam(name: "dryrun", defaultValue: false, description: "Тестовый запуск")
-        booleanParam(name: "curl", defaultValue: true, description: "Запрос к сайту")
-        booleanParam(name: "new_commit", defaultValue: true, description: "Создание нового коммита")
-        string(name: "BRANCH_TO_SCAN", defaultValue: "main", trim: true, description: "Ветка для сканирования")
-        choice(name: "env", choices: ["PROD", "DEV", "IFT"], description: "Sample multi-choice parameter")
+        booleanParam(name: 'dryrun', defaultValue: false, description: 'Тестовый запуск')
+        booleanParam(name: 'curl', defaultValue: true, description: 'Запрос к сайту')
+        booleanParam(name: 'new_commit', defaultValue: true, description: 'Создание нового коммита')
+        string(name: 'BRANCH_TO_SCAN', defaultValue: 'main', trim: true, description: 'Ветка для сканирования')
+        choice(name: 'env', choices: ['PROD', 'DEV', 'IFT'], description: 'Sample multi-choice parameter')
     }
     stages {
-        stage("Подготовка нового коммита для сканирования") {
+        stage('Подготовка нового коммита для сканирования') {
             options {
                 timeout(time: 1, unit: 'MINUTES')
             }
@@ -36,7 +37,7 @@ pipeline {
                     sh 'git config --global user.name "Dima"'
                     sh "git commit -am \"Auto #${env.BUILD_NUMBER}\""
                     sh "git push origin ${env.BRANCH_TO_SCAN}:${env.BRANCH_TO_SCAN}"
-                }
+                    }
                 script {
                     env.COMMIT_HASH = "${sh returnStdout: true, script: 'git rev-parse HEAD'}".trim()
                 }
@@ -45,11 +46,12 @@ pipeline {
             post {
                 failure {
                     script {
-                        env.FAILED_STAGE = "Подготовка нового коммита для сканирования"
+                        env.FAILED_STAGE = 'Подготовка нового коммита для сканирования'
                     }
                 }
             }
         }
+
         stage('DryRun') {
             when {
                 expression {
@@ -57,42 +59,42 @@ pipeline {
                 }
             }
             steps {
-                echo "THIS IS DRYRUN!"
+                echo 'THIS IS DRYRUN!'
                 echo "Branch name: ${params.BRANCH_TO_SCAN}"
             }
         }
-        stage ('curl') {
+        stage('curl') {
             when {
                 expression {
                     return params.curl
                 }
             }
             steps {
-                echo "Test stage."
+                echo 'Test stage.'
                 sh 'curl --version'
                 sh 'curl -k http://mskweather.ru'
             }
         }
-        stage("Release") {
+        stage('Release') {
             steps {
                 echo "Defined release notes $params.releaseNotes"
                 echo "Starting release on $params.env"
             }
         }
-        stage("Sleep") {
+        stage('Sleep') {
             steps {
-            sh 'sleep 10'
-            sh 'ls'
-            sh 'ls'
-            println 123 + 234
-            println 234 * 345 * 500 * 2345 * 545223
+                sh 'sleep 10'
+                sh 'ls'
+                sh 'ls'
+                println 123 + 234
+                println 234 * 345 * 500 * 2345 * 545223
             }
         }
     }
     post {
         cleanup {
                 cleanWs disableDeferredWipeout: true, deleteDirs: true
-            }
+        }
         success {
             mail to: 'shmatov787@gmail.com',
             subject: "Completed Pipeline: ${currentBuild.fullDisplayName}",
