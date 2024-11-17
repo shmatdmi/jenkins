@@ -106,7 +106,7 @@ pipeline {
                 echo "This is path ${env.javaVersion}"
                 echo "This is path $javaVersion"
                 echo "\033[32m$sity\033[0m"
-                println 23 ** 2 ** 8 * 1000
+                println 23 ** 2
                 sh 'printenv'
                 sleep 5
             }
