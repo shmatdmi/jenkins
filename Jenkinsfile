@@ -24,7 +24,7 @@ pipeline {
     options {
         timestamps()
         ansiColor('xterm')
-        timeout(time: 1, unit: 'MINUTES') //таймаут
+        timeout(time: 2, unit: 'MINUTES') //таймаут
     }
     stages {
         stage('Подготовка нового коммита для сканирования') {
