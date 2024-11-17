@@ -46,6 +46,7 @@ pipeline {
                 }
             }
             steps {
+                echo "\033[32m==========================if else stage==========================\033[0m"
                 sh 'ls -la'
                 sh '''
                   cd ./apps
