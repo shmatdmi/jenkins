@@ -43,10 +43,9 @@ pipeline {
                 echo "Password: ${params.PASSWORD}"
             }
         }
-    }
         stage('Build') {
             steps {
-                echo "\033[31m==========================Envirenment==========================\033[0m"
+                echo "\033[31m==========================Envirenments==========================\033[0m"
                 echo "build ${env.BUILD_ID} on ${env.JENKINS_URL}"
                 echo "This is path ${env.javaVersion}"
                 echo "This is path $javaVersion"
@@ -54,7 +53,7 @@ pipeline {
                 sleep 3
             }
         }
-
+    }
     post {
         cleanup {
                 cleanWs disableDeferredWipeout: true, deleteDirs: true
