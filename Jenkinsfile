@@ -105,6 +105,8 @@ pipeline {
                         echo "$name"
                         x = 3
                         println x * 3
+                        int count = 5
+                        echo "$count"
                     }
                 }
                 sleep 10
