@@ -32,7 +32,7 @@ pipeline {
     stages {
         stage('Подготовка нового коммита для сканирования') {
             options {
-                timeout(time: 2, unit: 'MINUTES')
+                timeout(time: 1, unit: 'MINUTES')
             }
             when {
                 expression {
@@ -50,7 +50,7 @@ pipeline {
             sh 'git config --global user.name "Dima"'
             sh "git commit -am \"Auto #${env.BUILD_NUMBER}\""
             sh "git push origin ${env.BRANCH_TO_SCAN}:${env.BRANCH_TO_SCAN}"
-            sleep 55
+            sleep 5
             }
                 script {
                     env.COMMIT_HASH = "${sh returnStdout: true, script: 'git rev-parse HEAD'}".trim()
