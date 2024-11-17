@@ -1,21 +1,15 @@
 pipeline {
     agent any
     triggers {
-        cron('H */10 * * 1-5')
+        cron('H */3 * * *')
     }
     parameters {
-        string(name: 'FIRST_NAME', defaultValue: 'Ivan',
-                description: 'This is your name')
-        string(name: 'LAST_NAME', defaultValue: 'Ivanov',
-                description: '')
-        text(name: 'MESSAGE', defaultValue: '',
-                description: 'Enter some information about the news')
-        booleanParam(name: 'DO_IT', defaultValue: true,
-                description: '.....')
-        choice(name: 'CHOICE', choices: ['one', '2', 'Three'],
-                description: 'Pick something')
-        password(name: 'PASSWORD', defaultValue: 'SECRET',
-                description: 'Enter a password')
+        string(name: 'FIRST_NAME', defaultValue: 'Ivan', description: 'This is your name')
+        string(name: 'LAST_NAME', defaultValue: 'Ivanov', description: '')
+        text(name: 'MESSAGE', defaultValue: '', description: 'Enter some information about the news')
+        booleanParam(name: 'DO_IT', defaultValue: true, description: '.....')
+        choice(name: 'CHOICE', choices: ['one', '2', 'Three'], description: 'Pick something')
+        password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
         booleanParam(name: 'dryrun', defaultValue: false, description: 'Тестовый запуск')
         booleanParam(name: 'curl', defaultValue: true, description: 'Запрос к сайту')
         booleanParam(name: 'new_commit', defaultValue: true, description: 'Создание нового коммита')
@@ -53,6 +47,7 @@ pipeline {
             sh 'git config --global user.name "Dima"'
             sh "git commit -am \"Auto #${env.BUILD_NUMBER}\""
             sh "git push origin ${env.BRANCH_TO_SCAN}:${env.BRANCH_TO_SCAN}"
+            sleep 60
             }
                 script {
                     env.COMMIT_HASH = "${sh returnStdout: true, script: 'git rev-parse HEAD'}".trim()
@@ -82,7 +77,7 @@ pipeline {
                 echo "Password: ${params.PASSWORD}"
                 echo "$name"
                 echo "\033[32m$sity\033[0m"
-                sleep 10
+                sleep 5
             }
         }
         stage('Build') {
@@ -97,7 +92,7 @@ pipeline {
                 echo "This is path $javaVersion"
                 echo "$sity"
                 sh 'printenv'
-                sleep 15
+                sleep 5
             }
         }
     }
