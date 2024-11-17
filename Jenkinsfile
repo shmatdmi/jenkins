@@ -99,6 +99,8 @@ pipeline {
                     withEnv(["name=Max"]) {
                         echo "${env.name}"
                     }
+                    def quality = 'superhero'
+                    def test = "DevOps - is ${quality}"
                 }
                 sleep 10
                 echo "\033[31m==========================Envirenments==========================\033[0m"
