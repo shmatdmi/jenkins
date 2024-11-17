@@ -86,7 +86,7 @@ pipeline {
         stage('Release') {
             steps {
                 echo "Starting release on $params.env" // пример вывода параметра
-                echo "Environment example: $env.REPOSITORY_NAME"
+                echo "Environment example: $env.REANCH_TO_SCAN"
             }
         }
     }
