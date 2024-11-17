@@ -85,7 +85,7 @@ pipeline {
         }
         stage('Release') {
             steps {
-                echo "Starting release on $params.BRANCH_TO_SCAN" // пример вывода параметра
+                echo "Starting release on $params.BRANCH_TO_SCAN branch" // пример вывода параметра
                 echo "Environment example: $env.REPOSITORY_NAME"
             }
         }
