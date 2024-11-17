@@ -47,7 +47,7 @@ pipeline {
             }
             steps {
                 echo "\033[32m==========================if else stage==========================\033[0m"
-                sh 'ls -la'
+                sh "curl -m 2 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric'"
                 sh '''
                   cd ./apps
                   if [ -f "${FILENAME}" ]; then
