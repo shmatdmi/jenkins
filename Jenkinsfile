@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent any
     triggers {
         cron('H */10 * * 1-5')
     }
@@ -62,7 +62,6 @@ pipeline {
         }
     }
     post {
-        agent any
         cleanup {
                 cleanWs disableDeferredWipeout: true, deleteDirs: true
             }
