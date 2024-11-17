@@ -45,6 +45,7 @@ pipeline {
                     return params.if
                 }
             }
+            sh 'ls -la'
             steps {
                 sh '''
                   cd ./apps
