@@ -43,6 +43,7 @@ pipeline {
                 echo "Password: ${params.PASSWORD}"
             }
         }
+    }
         stage('Build') {
             steps {
                 steps {
@@ -57,8 +58,9 @@ pipeline {
                 echo "This is path $javaVersion"
                 sh 'printenv'
                 sleep 3
+            }
         }
-    }
+
     post {
         cleanup {
                 cleanWs disableDeferredWipeout: true, deleteDirs: true
@@ -76,5 +78,4 @@ pipeline {
             echo 'Im failed'
         }
     }   
-}
 }
