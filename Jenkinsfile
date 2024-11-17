@@ -62,6 +62,7 @@ pipeline {
         }
     }
     post {
+        agent any
         cleanup {
                 cleanWs disableDeferredWipeout: true, deleteDirs: true
             }
