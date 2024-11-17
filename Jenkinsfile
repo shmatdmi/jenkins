@@ -100,6 +100,7 @@ pipeline {
                         echo "${env.name}"
                         def quality = 'superhero'
                         def test = "DevOps - is ${quality}"
+                        echo "${test}"
                     }
                 }
                 sleep 10
