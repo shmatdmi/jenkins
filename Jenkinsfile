@@ -19,6 +19,8 @@ pipeline {
     }
     environment {
         javaVersion = '/usr/var/java11'
+        name = 'Dima'
+        sity = 'Moscow'
     }
     options {
         timestamps()
@@ -41,6 +43,9 @@ pipeline {
                 echo "Choice: ${params.CHOICE}"
 
                 echo "Password: ${params.PASSWORD}"
+                echo "$name"
+                echo "\033[32m$sity\033[0m"
+                sleep 10
             }
         }
         stage('Build') {
@@ -49,8 +54,9 @@ pipeline {
                 echo "build ${env.BUILD_ID} on ${env.JENKINS_URL}"
                 echo "This is path ${env.javaVersion}"
                 echo "This is path $javaVersion"
+                echo "$sity"
                 sh 'printenv'
-                sleep 3
+                sleep 15
             }
         }
     }
