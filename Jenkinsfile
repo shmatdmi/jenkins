@@ -91,7 +91,7 @@ pipeline {
                 echo "Branch name: ${params.BRANCH_TO_SCAN}"
             }
         }
-        stage('Build') {
+        stage('Add env on steps') {
             agent any
             options {
                 timeout(time: 1, unit: 'MINUTES')
@@ -108,6 +108,8 @@ pipeline {
                 echo "This is path ${env.javaVersion}"
                 echo "This is path $javaVersion"
                 echo "\033[32m$sity\033[0m"
+                echo "${env.name}
+                sleep 5
                 sh 'printenv'
                 sleep 5
             }
