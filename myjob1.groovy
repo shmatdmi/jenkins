@@ -18,7 +18,9 @@ pipeline {
         string(name: 'BRANCH_TO_SCAN', defaultValue: 'main', trim: true, description: 'Ветка для сканирования')
         choice(name: 'env', choices: ['PROD', 'DEV', 'IFT'], description: 'Sample multi-choice parameter')
     }
-    stage ('Main Stage') {
+
+    stages {
+        stage ('Main Stage') {
             options {
                 timeout(time: 1, unit: 'MINUTES')
             }
@@ -42,7 +44,6 @@ pipeline {
                 }
             }
         }
-    stages {
         stage('Подготовка нового коммита для сканирования') {
             options {
                 timeout(time: 1, unit: 'MINUTES')
