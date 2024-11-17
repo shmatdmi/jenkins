@@ -25,7 +25,7 @@ pipeline {
     options {
         timestamps()
         ansiColor('xterm')
-        timeout(time: 1, unit: 'MINUTES')
+        timeout(time: 1, unit: 'MINUTES') //таймаут
     }
     stages {
         stage('Examle username password') {
@@ -35,13 +35,9 @@ pipeline {
             steps {
                 echo "\033[32m==========================Parameters==========================\033[0m"
                 echo "Hello ${params.FIRST_NAME}"
-
                 echo "Biography: ${params.LAST_NAME}"
-
                 echo "Toggle: ${params.DO_IT}"
-
                 echo "Choice: ${params.CHOICE}"
-
                 echo "Password: ${params.PASSWORD}"
                 echo "$name"
                 echo "\033[32m$sity\033[0m"
@@ -64,12 +60,12 @@ pipeline {
         cleanup {
                 cleanWs disableDeferredWipeout: true, deleteDirs: true
             }
-        success {
+        /*success {
             mail to: 'shmatov787@gmail.com',
             subject: "Completed Pipeline: ${currentBuild.fullDisplayName}",
             body: "Your build completed, please check: ${env.BUILD_URL}"
             echo 'Im successed'
-        }
+        }*/
         failure {
             mail to: 'shmatov787@gmail.com',
             subject: "Failure project - Jenkins Pipeline: ${currentBuild.fullDisplayName}",
