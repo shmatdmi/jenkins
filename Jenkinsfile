@@ -101,6 +101,8 @@ pipeline {
                         def quality = 'superhero'
                         def test = "DevOps - is ${quality}"
                         echo "${test}"
+                        name = "Dima"
+                        echo "$name"
                     }
                 }
                 sleep 10
