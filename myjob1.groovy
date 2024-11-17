@@ -30,6 +30,7 @@ pipeline {
                 }
             }
             steps {
+                echo "\033[32m==========================if else stage==========================\033[0m"
                 script {
                     if (true) {
                         stage ('Stage 1') {
@@ -42,6 +43,7 @@ pipeline {
                         }
                     }
                 }
+                sleep 15
             }
         }
         stage('Подготовка нового коммита для сканирования') {
@@ -107,24 +109,10 @@ pipeline {
                 echo "Starting release on $params.env"
             }
         }
-        stage('Sleep') {
-            steps {
-                sh 'sleep 10'
-                sh 'ls'
-                sh 'ls'
-                println 123 + 234
-                println 234 * 345 * 500 * 2345 * 545223
-            }
-        }
     }
     post {
         cleanup {
                 cleanWs disableDeferredWipeout: true, deleteDirs: true
-        }
-        success {
-            mail to: 'shmatov787@gmail.com',
-            subject: "Completed Pipeline: ${currentBuild.fullDisplayName}",
-            body: "Your build completed, please check: ${env.BUILD_URL}"
         }
         failure {
             mail to: 'shmatov787@gmail.com',
