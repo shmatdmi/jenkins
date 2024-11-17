@@ -1,11 +1,11 @@
 pipeline {
     agent any
-    //    agent {
-    //       node {
-    //            label 'any'
-    //        }
-    //    }
-
+    environment {
+      APPLICATION_NAME="myapp"
+      REPOSITORY_NAME="myrepo"
+      FILENAME="${APPLICATION_NAME}-app.yaml"
+      ALREADY_EXISTS="false"
+    }
     options {
         timestamps()
         ansiColor('xterm')
@@ -13,12 +13,29 @@ pipeline {
     parameters {
         booleanParam(name: 'curl', defaultValue: false, description: 'Запрос к сайту')
         booleanParam(name: 'new_commit', defaultValue: true, description: 'Создание нового коммита')
+        booleanParam(name: 'git', defaultValue: true, description: 'git checkout on if else stage')
         booleanParam(name: 'if', defaultValue: true, description: 'if else stage')
         string(name: 'BRANCH_TO_SCAN', defaultValue: 'main', trim: true, description: 'Ветка для сканирования')
         choice(name: 'env', choices: ['PROD', 'DEV', 'IFT'], description: 'Sample multi-choice parameter')
     }
 
     stages {
+        stages {
+        stage("Clone Git Repository") {
+            when {
+                expression {
+                    return params.git
+                }
+            steps {
+                git(
+                    url: "https://github.com/shmatdmi/jenkins.git",
+                    branch: "main",
+                    changelog: true,
+                    credentialsId: 'mycreds',
+                    poll: true
+                )
+            }
+        }
         stage ('Main Stage') {
             options {
                 timeout(time: 1, unit: 'MINUTES')
@@ -29,22 +46,21 @@ pipeline {
                 }
             }
             steps {
-                echo "\033[32m==========================if else stage==========================\033[0m"
-                script {
-                    if (true) {
-                        stage ('Stage 1') {
-                            sh 'echo Stage 1'
-                        }
-                    }
-                    if (false) {
-                        stage ('Stage 2') {
-                            sh 'echo Stage 2'
-                        }
-                    }
-                }
-                sleep 15
+                sh '''
+                  cd ./apps
+                  if [ -f "${FILENAME}" ]; then
+                    echo "${FILENAME} exists"
+                    ALREADY_EXISTS="true"
+                  else
+                    echo "${FILENAME} does not exist"
+                    ALREADY_EXISTS="false"
+                  fi
+                  echo "ALREADY_EXISTS = ${ALREADY_EXISTS}"
+                  cd ..
+                '''
             }
         }
+    }
         stage('Подготовка нового коммита для сканирования') {
             options {
                 timeout(time: 1, unit: 'MINUTES')
