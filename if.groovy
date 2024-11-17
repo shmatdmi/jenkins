@@ -39,11 +39,12 @@ pipeline {
                   cd ./apps
                   if [ -f "${FILENAME}" ]; then
                     echo "${FILENAME} exists"
-                    exit 1 
+                    exit 0
                     ALREADY_EXISTS="true"
                   else
                     echo "${FILENAME} does not exist"
                     ALREADY_EXISTS="false"
+                    exit 1
                   fi
                   echo "ALREADY_EXISTS = ${ALREADY_EXISTS}"
                   cd ..
