@@ -14,9 +14,34 @@ pipeline {
         booleanParam(name: 'dryrun', defaultValue: false, description: 'Тестовый запуск')
         booleanParam(name: 'curl', defaultValue: true, description: 'Запрос к сайту')
         booleanParam(name: 'new_commit', defaultValue: true, description: 'Создание нового коммита')
+        booleanParam(name: 'if', defaultValue: true, description: 'if else stage')
         string(name: 'BRANCH_TO_SCAN', defaultValue: 'main', trim: true, description: 'Ветка для сканирования')
         choice(name: 'env', choices: ['PROD', 'DEV', 'IFT'], description: 'Sample multi-choice parameter')
     }
+    stage ('Main Stage') {
+            options {
+                timeout(time: 1, unit: 'MINUTES')
+            }
+            when {
+                expression {
+                    return params.if
+                }
+            }
+            steps {
+                script {
+                    if (true) {
+                        stage ('Stage 1') {
+                            sh 'echo Stage 1'
+                        }
+                    }
+                    if (false) {
+                        stage ('Stage 2') {
+                            sh 'echo Stage 2'
+                        }
+                    }
+                }
+            }
+        }
     stages {
         stage('Подготовка нового коммита для сканирования') {
             options {
