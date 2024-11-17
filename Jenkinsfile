@@ -45,12 +45,12 @@ pipeline {
             sshagent(['ssh-dima']) {
             sh "git checkout ${env.BRANCH_TO_SCAN}"
             writeFile file: 'code.groovy', text: "echo '${new Date()} [${env.BUILD_NUMBER}]'\necho '${env.BRANCH_TO_SCAN} of ${env.GIT_URL}'\necho '${UUID.randomUUID().toString()}'"
-            sh 'git add code.groovy'
-            sh 'git config --global user.email "dima@example.com"'
-            sh 'git config --global user.name "Dima"'
-            sh "git commit -am \"Auto #${env.BUILD_NUMBER}\""
+            sh 'git add code.groovy && git commit -am \"Auto #${env.BUILD_NUMBER}\" && git push origin ${env.BRANCH_TO_SCAN}:${env.BRANCH_TO_SCAN}'
+            //sh 'git config --global user.email "dima@example.com"'
+            //sh 'git config --global user.name "Dima"'
+            /*sh "git commit -am \"Auto #${env.BUILD_NUMBER}\""
             sh "git push origin ${env.BRANCH_TO_SCAN}:${env.BRANCH_TO_SCAN}"
-            sleep 5
+            sleep 5 */
             }
                 script {
                     env.COMMIT_HASH = "${sh returnStdout: true, script: 'git rev-parse HEAD'}".trim()
