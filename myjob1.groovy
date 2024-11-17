@@ -60,7 +60,6 @@ pipeline {
                 '''
             }
         }
-    }
         stage('Подготовка нового коммита для сканирования') {
             options {
                 timeout(time: 1, unit: 'MINUTES')
