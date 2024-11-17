@@ -20,7 +20,6 @@ pipeline {
     }
 
     stages {
-        stages {
         stage("Clone Git Repository") {
             when {
                 expression {
