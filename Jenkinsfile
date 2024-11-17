@@ -10,7 +10,6 @@ pipeline {
         booleanParam(name: 'DO_IT', defaultValue: true, description: '.....')
         choice(name: 'CHOICE', choices: ['one', '2', 'Three'], description: 'Pick something')
         password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
-        //booleanParam(name: 'dryrun', defaultValue: false, description: 'Тестовый запуск')
         booleanParam(name: 'curl', defaultValue: true, description: 'Запрос к сайту')
         booleanParam(name: 'new_commit', defaultValue: true, description: 'Создание нового коммита')
         string(name: 'BRANCH_TO_SCAN', defaultValue: 'main', trim: true, description: 'Ветка для сканирования')
@@ -76,17 +75,6 @@ pipeline {
                 echo "Password: ${params.PASSWORD}"
                 echo "$name"
                 sleep 5
-            }
-        }
-        stage('DryRun') {
-            when {
-                expression {
-                    return params.dryrun
-                }
-            }
-            steps {
-                echo 'THIS IS DRYRUN!'
-                echo "Branch name: ${params.BRANCH_TO_SCAN}"
             }
         }
         stage('Add env on steps') {
