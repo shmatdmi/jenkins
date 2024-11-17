@@ -5,12 +5,12 @@ pipeline {
     }
 
     parameters {
-        string(name: 'FIRST_NAME', defaultValue: 'Ivan', description: 'This is your name')
-        text(name: 'MESSAGE', defaultValue: '', description: 'Enter some information about the news')
+        string(name: 'FIRST_NAME', defaultValue: 'Dima', description: 'This is your name')
+        //text(name: 'MESSAGE', defaultValue: '', description: 'Enter some information about the news')
         booleanParam(name: 'DO_IT', defaultValue: true, description: '.....')
         choice(name: 'CHOICE', choices: ['one', '2', 'Three'], description: 'Pick something')
         password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
-        booleanParam(name: 'dryrun', defaultValue: false, description: 'Тестовый запуск')
+        //booleanParam(name: 'dryrun', defaultValue: false, description: 'Тестовый запуск')
         booleanParam(name: 'curl', defaultValue: true, description: 'Запрос к сайту')
         booleanParam(name: 'new_commit', defaultValue: true, description: 'Создание нового коммита')
         string(name: 'BRANCH_TO_SCAN', defaultValue: 'main', trim: true, description: 'Ветка для сканирования')
