@@ -6,6 +6,9 @@ pipeline {
       FILENAME="${APPLICATION_NAME}-app.yaml"
       ALREADY_EXISTS="false"
     }
+    triggers {
+        cron('H */2 * * *')
+    }
     options {
         timestamps()
         ansiColor('xterm')
@@ -20,23 +23,7 @@ pipeline {
     }
 
     stages {
-        stage("Clone Git Repository") {
-            when {
-                expression {
-                    return params.git
-                }
-            }
-            steps {
-                git(
-                    url: "https://github.com/shmatdmi/jenkins.git",
-                    branch: "main",
-                    changelog: true,
-                    //credentialsId: 'mycreds',
-                    poll: true
-                )
-            }
-        }
-        stage ('Main Stage') {
+        stage ('if else') {
             options {
                 timeout(time: 1, unit: 'MINUTES')
             }
