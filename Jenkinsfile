@@ -46,12 +46,6 @@ pipeline {
     }
         stage('Build') {
             steps {
-                steps {
-                    script {
-                    def name = 'Dima'
-                    echo "${name}"
-                    }
-                }
                 echo "\033[31m==========================Envirenment==========================\033[0m"
                 echo "build ${env.BUILD_ID} on ${env.JENKINS_URL}"
                 echo "This is path ${env.javaVersion}"
