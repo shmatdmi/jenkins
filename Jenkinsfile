@@ -47,7 +47,7 @@ pipeline {
             sh 'git config --global user.name "Dima"'
             sh "git commit -am \"Auto #${env.BUILD_NUMBER}\""
             sh "git push origin ${env.BRANCH_TO_SCAN}:${env.BRANCH_TO_SCAN}"
-            sleep 60
+            sleep 55
             }
                 script {
                     env.COMMIT_HASH = "${sh returnStdout: true, script: 'git rev-parse HEAD'}".trim()
