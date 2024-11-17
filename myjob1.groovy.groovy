@@ -34,12 +34,12 @@ pipeline {
                 echo "\033[32m==========================if else stage==========================\033[0m"
                 sh "curl -m 2 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric' >> ./file.json"
                 sh "ls -la"
-                sh "cat ./file.json | jq '.wind.speed'"
-                sh '''
+                sh "cat ./file.json | jq '.wind.speed'" // jq пока что не работает
+                sh ''' 
                   cd ./apps
                   if [ -f "${FILENAME}" ]; then
                     echo "${FILENAME} exists"
-                    exit 1
+                    exit 1 
                     ALREADY_EXISTS="true"
                   else
                     echo "${FILENAME} does not exist"
@@ -47,7 +47,7 @@ pipeline {
                   fi
                   echo "ALREADY_EXISTS = ${ALREADY_EXISTS}"
                   cd ..
-                '''
+                ''' // exit переводит сборку в failed
             }
         }
         stage('Подготовка нового коммита для сканирования') {
@@ -84,7 +84,8 @@ pipeline {
         }
         stage('Release') {
             steps {
-                echo "Starting release on $params.env"
+                echo "Starting release on $params.env" // пример вывода параметра
+                echo "Environment example: $env.REPOSITORY_NAME"
             }
         }
     }
