@@ -5,7 +5,6 @@ pipeline {
     }
     parameters {
         string(name: 'FIRST_NAME', defaultValue: 'Ivan', description: 'This is your name')
-        string(name: 'LAST_NAME', defaultValue: 'Ivanov', description: '')
         text(name: 'MESSAGE', defaultValue: '', description: 'Enter some information about the news')
         booleanParam(name: 'DO_IT', defaultValue: true, description: '.....')
         choice(name: 'CHOICE', choices: ['one', '2', 'Three'], description: 'Pick something')
@@ -70,14 +69,22 @@ pipeline {
             }
             steps {
                 echo "\033[32m==========================Parameters==========================\033[0m"
-                echo "Hello ${params.FIRST_NAME}"
-                echo "Biography: ${params.LAST_NAME}"
+                echo "Name ${params.FIRST_NAME}"
                 echo "Toggle: ${params.DO_IT}"
                 echo "Choice: ${params.CHOICE}"
                 echo "Password: ${params.PASSWORD}"
-                echo "$name"
-                echo "\033[32m$sity\033[0m"
                 sleep 5
+            }
+        }
+        stage('DryRun') {
+            when {
+                expression {
+                    return params.dryrun
+                }
+            }
+            steps {
+                echo 'THIS IS DRYRUN!'
+                echo "Branch name: ${params.BRANCH_TO_SCAN}"
             }
         }
         stage('Build') {
@@ -90,7 +97,8 @@ pipeline {
                 echo "build ${env.BUILD_ID} on ${env.JENKINS_URL}"
                 echo "This is path ${env.javaVersion}"
                 echo "This is path $javaVersion"
-                echo "$sity"
+                echo "$name"
+                echo "\033[32m$sity\033[0m"
                 sh 'printenv'
                 sleep 5
             }
