@@ -43,6 +43,13 @@ pipeline {
                 echo "Password: ${params.PASSWORD}"
             }
         }
+        stage('Set Variable') {
+            steps {
+                script {
+                    currentBuild.rawBuild.getEnv().put("MY_VAR", "Some value")
+                }
+            }
+        }
         stage('Build') {
             steps {
                 echo "\033[31m==========================Envirenments==========================\033[0m"
@@ -51,6 +58,11 @@ pipeline {
                 echo "This is path $javaVersion"
                 sh 'printenv'
                 sleep 3
+            }
+        }
+        stage('Use Variable') {
+            steps {
+                echo "Полученное значение: ${env.MY_VAR}"
             }
         }
     }
