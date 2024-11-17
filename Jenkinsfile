@@ -3,6 +3,7 @@ pipeline {
     triggers {
         cron('H */3 * * *')
     }
+
     parameters {
         string(name: 'FIRST_NAME', defaultValue: 'Ivan', description: 'This is your name')
         text(name: 'MESSAGE', defaultValue: '', description: 'Enter some information about the news')
@@ -15,16 +16,19 @@ pipeline {
         string(name: 'BRANCH_TO_SCAN', defaultValue: 'main', trim: true, description: 'Ветка для сканирования')
         choice(name: 'env', choices: ['PROD', 'DEV', 'IFT'], description: 'Sample multi-choice parameter')
     }
+
     environment {
         javaVersion = '/usr/var/java11'
         name = 'Dima'
         sity = 'Moscow'
     }
+
     options {
         timestamps()
         ansiColor('xterm')
         timeout(time: 2, unit: 'MINUTES') //таймаут
     }
+    
     stages {
         stage('Подготовка нового коммита для сканирования') {
             options {
