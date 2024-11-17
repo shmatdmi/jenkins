@@ -49,7 +49,7 @@ pipeline {
                 sh '''
                   cd ./apps
                   if [ -f "${FILENAME}" ]; then
-                    sh 'curl -k http://mskweather.ru'
+                    sh 'ls -la'
                     ALREADY_EXISTS="true"
                   else
                     echo "${FILENAME} does not exist"
@@ -69,17 +69,16 @@ pipeline {
                     return params.new_commit
                 }
             }
+        
             steps {
-                    echo "\033[32m==========================New commit stage==========================\033[0m"
-                    sshagent(['ssh-dima']) {
-                    sh "git checkout ${env.BRANCH_TO_SCAN}"
-                    writeFile file: 'code.groovy', text: "echo '${new Date()} [${env.BUILD_NUMBER}]'\necho '${env.BRANCH_TO_SCAN} of ${env.GIT_URL}'\necho '${UUID.randomUUID().toString()}'"
-                    sh 'git add code.groovy'
-                    //sh 'git config --global user.email "dima@example.com"'
-                    //sh 'git config --global user.name "Dima"'
-                    sh "git commit -am \"Auto #${env.BUILD_NUMBER}\""
-                    sh "git push origin ${env.BRANCH_TO_SCAN}:${env.BRANCH_TO_SCAN}"
-                    }
+            echo "\033[32m==========================New commit stage==========================\033[0m"
+            sshagent(['ssh-dima']) {
+            sh "git checkout ${env.BRANCH_TO_SCAN}"
+            writeFile file: 'code.groovy', text: "echo '${new Date()} [${env.BUILD_NUMBER}]'\necho '${env.BRANCH_TO_SCAN} of ${env.GIT_URL}'\necho '${UUID.randomUUID().toString()}'"
+            sh 'git add code.groovy'
+            sh "git commit -am \"Auto #${env.BUILD_NUMBER}\""
+            sh "git push origin ${env.BRANCH_TO_SCAN}:${env.BRANCH_TO_SCAN}"
+            }
                 script {
                     env.COMMIT_HASH = "${sh returnStdout: true, script: 'git rev-parse HEAD'}".trim()
                 }
