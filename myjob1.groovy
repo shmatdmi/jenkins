@@ -26,6 +26,7 @@ pipeline {
                 expression {
                     return params.git
                 }
+            }
             steps {
                 git(
                     url: "https://github.com/shmatdmi/jenkins.git",
