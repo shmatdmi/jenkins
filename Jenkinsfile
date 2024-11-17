@@ -51,6 +51,8 @@ pipeline {
                 echo "This is path $javaVersion"
                 sh 'printenv'
                 sleep 3
+                def name = 'Dima'
+                echo "${name}"
             }
         }
     }
