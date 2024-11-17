@@ -11,7 +11,6 @@ pipeline {
         ansiColor('xterm')
     }
     parameters {
-        booleanParam(name: 'dryrun', defaultValue: false, description: 'Тестовый запуск')
         booleanParam(name: 'curl', defaultValue: false, description: 'Запрос к сайту')
         booleanParam(name: 'new_commit', defaultValue: true, description: 'Создание нового коммита')
         booleanParam(name: 'if', defaultValue: true, description: 'if else stage')
@@ -79,18 +78,6 @@ pipeline {
                 }
             }
         }
-
-        stage('DryRun') {
-            when {
-                expression {
-                    return params.dryrun
-                }
-            }
-            steps {
-                echo 'THIS IS DRYRUN!'
-                echo "Branch name: ${params.BRANCH_TO_SCAN}"
-            }
-        }
         stage('curl') {
             when {
                 expression {
@@ -98,14 +85,11 @@ pipeline {
                 }
             }
             steps {
-                echo 'Test stage.'
-                sh 'curl --version'
                 sh 'curl -k http://mskweather.ru'
             }
         }
         stage('Release') {
             steps {
-                echo "Defined release notes $params.releaseNotes"
                 echo "Starting release on $params.env"
             }
         }
