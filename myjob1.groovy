@@ -14,8 +14,7 @@ pipeline {
         ansiColor('xterm')
     }
     parameters {
-        booleanParam(name: 'curl', defaultValue: false, description: 'Запрос к сайту')
-        booleanParam(name: 'new_commit', defaultValue: true, description: 'Создание нового коммита')
+        booleanParam(name: 'new_commit', defaultValue: false, description: 'Создание нового коммита')
         booleanParam(name: 'if', defaultValue: true, description: 'if else stage')
         string(name: 'BRANCH_TO_SCAN', defaultValue: 'main', trim: true, description: 'Ветка для сканирования')
         choice(name: 'env', choices: ['PROD', 'DEV', 'IFT'], description: 'Sample multi-choice parameter')
@@ -78,16 +77,6 @@ pipeline {
                         env.FAILED_STAGE = 'Подготовка нового коммита для сканирования'
                     }
                 }
-            }
-        }
-        stage('curl') {
-            when {
-                expression {
-                    return params.curl
-                }
-            }
-            steps {
-                sh 'curl -k http://mskweather.ru'
             }
         }
         stage('Release') {
