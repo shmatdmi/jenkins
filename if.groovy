@@ -3,7 +3,7 @@ pipeline {
     environment {
       APPLICATION_NAME="myapp"
       REPOSITORY_NAME="myrepo"
-      FILENAME="${APPLICATION_NAME}-app.yaml"
+      FILENAME="${APPLICATION_NAME}-weather.json"
       ALREADY_EXISTS="false"
     }
     triggers {
@@ -32,11 +32,13 @@ pipeline {
             }
             steps {
                 echo "\033[32m==========================if else stage==========================\033[0m"
-                sh "curl -m 2 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric' >> ./file.json"
-                sh "ls -la"
+                sh "rm ./data/*"
+                sh "ls -la ./data"
+                sh "curl -m 2 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric' >> ./data/${APPLICATION_NAME}-weather.json"
+                sh "ls -la ./data"
                 //sh "cat ./file.json | jq '.wind.speed'" // jq пока что не работает
                 sh ''' 
-                  cd ./apps
+                  cd ./data
                   if [ -f "${FILENAME}" ]; then
                     echo "${FILENAME} exists"
                     exit 0
