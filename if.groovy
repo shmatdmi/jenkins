@@ -32,7 +32,7 @@ pipeline {
             }
             steps {
                 echo "\033[32m==========================if else stage==========================\033[0m"
-                sh "cd data"
+                sh "cd /var/jenkins_home/workspace/if/data"
                 sh "ls -la"
                 sh "pwd"
                 sh "ls -la ./data"
