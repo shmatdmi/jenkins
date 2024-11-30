@@ -1,3 +1,3 @@
-echo '[myapp-weather.json]'
+cat '[myapp-weather.json]'
 echo 'main of git@github.com:shmatdmi/jenkins.git'
-echo 'f277ce71-55ed-49bf-bba9-cff2e5f003e1'
+echo '2369ffdc-5904-4116-bc38-d2bebdd68ddf'
