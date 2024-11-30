@@ -14,7 +14,7 @@ pipeline {
         ansiColor('xterm')
     }
     parameters {
-        booleanParam(name: 'new_commit', defaultValue: false, description: 'Создание нового коммита')
+        booleanParam(name: 'new_commit', defaultValue: true, description: 'Создание нового коммита')
         booleanParam(name: 'if', defaultValue: true, description: 'if else stage')
         string(name: 'BRANCH_TO_SCAN', defaultValue: 'main', trim: true, description: 'Ветка для сканирования')
         choice(name: 'env', choices: ['PROD', 'DEV', 'IFT'], description: 'Sample multi-choice parameter')
@@ -32,7 +32,8 @@ pipeline {
             }
             steps {
                 echo "\033[32m==========================if else stage==========================\033[0m"
-                sh "rm ./data/*"
+                sh 'cd ./data'
+                sh "rm ./*"
                 sh "ls -la ./data"
                 sh "curl -m 2 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric' >> ./data/${APPLICATION_NAME}-weather.json"
                 sh "ls -la ./data"
@@ -68,7 +69,7 @@ pipeline {
             sshagent(['ssh-dima']) {
             sh "git checkout ${env.BRANCH_TO_SCAN}"
             //writeFile file: 'code.groovy', text: "echo '${new Date()} [${env.BUILD_NUMBER}]'\necho '${env.BRANCH_TO_SCAN} of ${env.GIT_URL}'\necho '${UUID.randomUUID().toString()}'"
-            writeFile file: 'code.groovy', text: "echo '[${env.FILENAME}]'\necho '${env.BRANCH_TO_SCAN} of ${env.GIT_URL}'\necho '${UUID.randomUUID().toString()}'"         
+            writeFile file: 'code.groovy', text: "cat '[${env.FILENAME}]'\necho '${env.BRANCH_TO_SCAN} of ${env.GIT_URL}'\necho '${UUID.randomUUID().toString()}'"         
             sh 'git add code.groovy'
             sh "git commit -am \"Auto #${env.BUILD_NUMBER}\""
             sh "git push origin ${env.BRANCH_TO_SCAN}:${env.BRANCH_TO_SCAN}"
