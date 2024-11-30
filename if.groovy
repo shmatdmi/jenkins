@@ -34,7 +34,7 @@ pipeline {
                 echo "\033[32m==========================if else stage==========================\033[0m"
                 sh "rm ./data/*"
                 sh "ls -la ./data"
-                sh "curl -m 2 'https://app.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric' >> ./data/${APPLICATION_NAME}-weather.json"
+                sh "curl -m 2 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric' >> ./data/${APPLICATION_NAME}-weather.json"
                 sh "ls -la ./data"
                 //sh "cat ./file.json | jq '.wind.speed'" // jq пока что не работает
                 sh ''' 
