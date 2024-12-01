@@ -62,7 +62,7 @@ pipeline {
             }
         }
 
-        stage('Examle username password') {
+        stage('Example username password') {
             agent any
             environment {
                 SERVICE_CRED = credentials('github_cred')
