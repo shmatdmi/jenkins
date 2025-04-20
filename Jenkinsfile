@@ -7,10 +7,9 @@ pipeline {
     parameters {
         string(name: 'FIRST_NAME', defaultValue: 'Dima', description: 'This is your name')
         //text(name: 'MESSAGE', defaultValue: '', description: 'Enter some information about the news')
-        booleanParam(name: 'DO_IT', defaultValue: true, description: '.....')
         password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
-        booleanParam(name: 'curl', defaultValue: true, description: 'Запрос к сайту')
         booleanParam(name: 'new_commit', defaultValue: true, description: 'Создание нового коммита')
+        booleanParam(name: 'if', defaultValue: true, description: 'if else')
         string(name: 'BRANCH_TO_SCAN', defaultValue: 'main', trim: true, description: 'Ветка для сканирования')
         choice(name: 'env', choices: ['PROD', 'DEV', 'IFT'], description: 'Sample multi-choice parameter')
     }
@@ -38,7 +37,6 @@ pipeline {
                     return params.new_commit
                 }
             }
-        
             steps {
             echo "\033[32m==========================New commit stage==========================\033[0m"
             sshagent(['ssh-dima']) {
@@ -70,14 +68,19 @@ pipeline {
             steps {
                 echo "\033[32m==========================Parameters==========================\033[0m"
                 echo "Name ${params.FIRST_NAME}"
-                echo "Toggle: ${params.DO_IT}"
-                echo "Choice: ${params.CHOICE}"
                 echo "Password: ${params.PASSWORD}"
                 echo "$name"
-                sleep 5
             }
         }
-        stage ('test3') {
+        stage ('if') {
+            options {
+                timeout(time: 1, unit: 'MINUTES')
+            }
+            when {
+                expression {
+                    return params.if
+                }
+            }
             steps {
                 script {
                     if (params.env == 'PROD') {
@@ -114,9 +117,7 @@ pipeline {
                 echo "This is path ${env.javaVersion}"
                 echo "This is path $javaVersion"
                 echo "\033[32m$sity\033[0m"
-                println 23 ** 2
                 sh 'printenv'
-                sleep 5
             }
         }
     }
@@ -125,13 +126,13 @@ pipeline {
                 cleanWs disableDeferredWipeout: true, deleteDirs: true
             }
         success {
-            mail to: '${env.login}@gmail.com',
+            mail to: ${env.login}'@gmail.com',
             subject: "Completed Pipeline: ${currentBuild.fullDisplayName}",
             body: "Your build completed, please check: ${env.BUILD_URL}"
             echo 'Im successed'
         }
         failure {
-            mail to: '${env.login}@gmail.com',
+            mail to: ${env.login}'@gmail.com',
             subject: "Failure project - Jenkins Pipeline: ${currentBuild.fullDisplayName}",
             body: "Your build FAILED, please check: ${env.BUILD_URL}"
             echo 'Im failed'
