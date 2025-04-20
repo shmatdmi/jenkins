@@ -97,6 +97,7 @@ pipeline {
                 timeout(time: 1, unit: 'MINUTES')
             }
             steps {
+                echo "\033[32m========================envirenments====================\033[0m"
                 script {
                     withEnv(["name=Max"]) {
                         echo "${env.name}"
@@ -111,8 +112,7 @@ pipeline {
                         echo "$count"
                     }
                 }
-                sleep 10
-                echo "\033[31m==========================Envirenments==========================\033[0m"
+                echo "\033[32m========================Global envirenments====================\033[0m"
                 echo "build ${env.BUILD_ID} on ${env.JENKINS_URL}"
                 echo "This is path ${env.javaVersion}"
                 echo "This is path $javaVersion"
