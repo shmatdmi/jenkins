@@ -77,16 +77,7 @@ pipeline {
                 sleep 5
             }
         }
-        stage ('if else') {
-            options {
-                timeout(time: 1, unit: 'MINUTES')
-            }
-            when {
-                expression {
-                    return params.if
-                }
-            }
-        stage('test3') {
+        stage ('test3') {
             steps {
                 script {
                     if (params.env == 'PROD') {
