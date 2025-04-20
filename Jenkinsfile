@@ -8,7 +8,6 @@ pipeline {
         string(name: 'FIRST_NAME', defaultValue: 'Dima', description: 'This is your name')
         //text(name: 'MESSAGE', defaultValue: '', description: 'Enter some information about the news')
         booleanParam(name: 'DO_IT', defaultValue: true, description: '.....')
-        choice(name: 'CHOICE', choices: ['one', '2', 'Three'], description: 'Pick something')
         password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
         booleanParam(name: 'curl', defaultValue: true, description: 'Запрос к сайту')
         booleanParam(name: 'new_commit', defaultValue: true, description: 'Создание нового коммита')
@@ -77,6 +76,27 @@ pipeline {
                 echo "$name"
                 sleep 5
             }
+        }
+        stage ('if else') {
+            options {
+                timeout(time: 1, unit: 'MINUTES')
+            }
+            when {
+                expression {
+                    return params.if
+                }
+            }
+        stage('test3') {
+            steps {
+                script {
+                    if (params.env == 'PROD') {
+                        echo 'Deploy on prodaction'
+                    } else {
+                        echo 'Deploy on development'
+                    }
+                }
+            }
+        }
         }
         stage('Add env on steps') {
             agent any
