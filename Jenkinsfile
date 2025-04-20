@@ -88,7 +88,6 @@ pipeline {
                 }
             }
         }
-        }
         stage('Add env on steps') {
             agent any
             options {
