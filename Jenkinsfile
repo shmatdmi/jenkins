@@ -126,13 +126,13 @@ pipeline {
                 cleanWs disableDeferredWipeout: true, deleteDirs: true
             }
         success {
-            mail to: ${env.login}'@gmail.com',
+            mail to: "${env.login}@gmail.com",
             subject: "Completed Pipeline: ${currentBuild.fullDisplayName}",
             body: "Your build completed, please check: ${env.BUILD_URL}"
             echo 'Im successed'
         }
         failure {
-            mail to: ${env.login}'@gmail.com',
+            mail to: "${env.login}@gmail.com",
             subject: "Failure project - Jenkins Pipeline: ${currentBuild.fullDisplayName}",
             body: "Your build FAILED, please check: ${env.BUILD_URL}"
             echo 'Im failed'
