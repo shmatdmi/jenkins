@@ -20,6 +20,7 @@ pipeline {
         javaVersion = '/usr/var/java11'
         name = 'Dima'
         sity = 'Moscow'
+        login = 'shmatov787'
     }
 
     options {
@@ -113,14 +114,14 @@ pipeline {
         cleanup {
                 cleanWs disableDeferredWipeout: true, deleteDirs: true
             }
-        /*success {
-            mail to: 'shmatov787@gmail.com',
+        success {
+            mail to: '${login}@gmail.com',
             subject: "Completed Pipeline: ${currentBuild.fullDisplayName}",
             body: "Your build completed, please check: ${env.BUILD_URL}"
             echo 'Im successed'
-        }*/
+        }
         failure {
-            mail to: 'shmatov787@gmail.com',
+            mail to: '${login}@gmail.com',
             subject: "Failure project - Jenkins Pipeline: ${currentBuild.fullDisplayName}",
             body: "Your build FAILED, please check: ${env.BUILD_URL}"
             echo 'Im failed'
