@@ -24,14 +24,11 @@ pipeline {
     options {
         timestamps()
         ansiColor('xterm')
-        timeout(time: 1, unit: 'MINUTES') //таймаут
+        timeout(time: 1, unit: 'MINUTES') //таймаут для всех stage
     }
 
     stages {
         stage('Подготовка нового коммита для сканирования') {
-            options {
-                timeout(time: 1, unit: 'MINUTES')
-            }
             when {
                 expression {
                     return params.new_commit
