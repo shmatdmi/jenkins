@@ -97,7 +97,7 @@ pipeline {
                 timeout(time: 1, unit: 'MINUTES')
             }
             steps {
-                echo "\033[32m========================envirenments====================\033[0m"
+                echo "\033[35m========================envirenments====================\033[0m"
                 script {
                     withEnv(["name=Max"]) {
                         echo "${env.name}"
