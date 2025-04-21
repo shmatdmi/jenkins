@@ -107,8 +107,6 @@ pipeline {
                         echo "${env.DATABASE}"
                         name = "Dima"
                         echo "$name"
-
-                echo ${env.DATABASE}
                         x = 3
                         println x * 3
                         int count = 5
