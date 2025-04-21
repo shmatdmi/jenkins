@@ -116,7 +116,7 @@ pipeline {
                 echo "\033[32m========================Global envirenments====================\033[0m"
                 echo "build ${env.BUILD_ID} on ${env.JENKINS_URL}"
                 echo "This is path ${env.javaVersion}"
-                echo "This is path" env.javaVersion
+                echo "This is path env.javaVersion"
                 echo "This is path $javaVersion"
                 echo "\033[32m$sity\033[0m"
                 sh 'printenv'
