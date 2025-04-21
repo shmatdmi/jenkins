@@ -67,11 +67,8 @@ pipeline {
             }
             steps {
                 echo "\033[32m==========================Parameters==========================\033[0m"
-                def sity = "Moscow"
                 echo "Name ${params.FIRST_NAME}"
                 echo "Password: ${params.PASSWORD}"
-                echo "$name"
-                echo "$sity"
             }
         }
         stage ('if') {
@@ -99,15 +96,19 @@ pipeline {
                 timeout(time: 1, unit: 'MINUTES')
             }
             steps {
-                echo "\033[35m========================envirenments====================\033[0m"
+                echo "\033[35m========================Envirenments====================\033[0m"
                 script {
                     withEnv(["name=Max"]) {
                         echo "${env.name}"
                         def quality = 'superhero'
                         def test = "DevOps - is ${quality}"
                         echo "${test}"
+                        env.DATABASE = "sast"
+                        echo "${env.DATABASE}"
                         name = "Dima"
                         echo "$name"
+
+                echo ${env.DATABASE}
                         x = 3
                         println x * 3
                         int count = 5
@@ -117,9 +118,9 @@ pipeline {
                 echo "\033[32m========================Global envirenments====================\033[0m"
                 echo "build ${env.BUILD_ID} on ${env.JENKINS_URL}"
                 echo "This is path ${env.javaVersion}"
-                echo "This is path env.javaVersion"
                 echo "This is path $javaVersion"
                 echo "\033[32m$sity\033[0m"
+                echo "${env.DATABASE}"
                 sh 'printenv'
             }
         }
