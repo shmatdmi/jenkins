@@ -63,21 +63,21 @@ pipeline {
         stage('Example username password') {
             agent any
             environment {
-                SERVICE_CRED = credentials('github_cred')
+                SERVICE_CRED = credentials('github_cred') //добавил возможность использовать данные из cred jenkins
             }
             steps {
-                echo "\033[32m==========================Parameters==========================\033[0m"
+                echo "\033[32m==========================Parameters==========================\033[0m" //отображаю параметры сборки
                 echo "Name ${params.FIRST_NAME}"
                 echo "Password: ${params.PASSWORD}"
             }
         }
         stage ('if') {
             options {
-                timeout(time: 1, unit: 'MINUTES')
+                timeout(time: 1, unit: 'MINUTES') //таймаут выполнения этого шага
             }
             when {
                 expression {
-                    return params.if
+                    return params.if //шаг проверяет нужно ли выпорлняться, задаем это при сборке с параметрами
                 }
             }
             steps {
@@ -91,35 +91,31 @@ pipeline {
             }
         }
         stage('Add env on steps') {
-            agent any
-            options {
-                timeout(time: 1, unit: 'MINUTES')
-            }
             steps {
                 echo "\033[35m========================Envirenments====================\033[0m"
                 script {
                     withEnv(["name=Max"]) {
                         echo "${env.name}"
-                        def quality = 'superhero'
-                        def test = "DevOps - is ${quality}"
+                        def quality = 'superhero'  //add env
+                        def test = "DevOps - is ${quality}" //add env
                         echo "${test}"
-                        env.DATABASE = "sast"
+                        env.DATABASE = "sast" //add global env
                         echo "${env.DATABASE}"
                         name = "Dima"
                         echo "$name"
-                        x = 3
-                        println x * 3
-                        int count = 5
+                        x = 3 //add env
+                        println x * 3 //вывести результат умножения и перенести строку
+                        int count = 5 //добавить числовую переменную
                         echo "$count"
                     }
                 }
                 echo "\033[32m========================Global envirenments====================\033[0m"
-                echo "build ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                echo "build ${env.BUILD_ID} on ${env.JENKINS_URL}" //
                 echo "This is path ${env.javaVersion}"
                 echo "This is path $javaVersion"
                 echo "\033[32m$sity\033[0m"
-                echo "${env.DATABASE}"
-                sh 'printenv'
+                echo "${env.DATABASE}" //
+                sh 'printenv' //
             }
         }
     }
