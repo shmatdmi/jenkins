@@ -10,6 +10,7 @@ pipeline {
         password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
         booleanParam(name: 'new_commit', defaultValue: true, description: 'Создание нового коммита')
         booleanParam(name: 'if', defaultValue: true, description: 'if else')
+        booleanParam(name: 'env', defaultValue: true, description: 'env')       
         string(name: 'BRANCH_TO_SCAN', defaultValue: 'main', trim: true, description: 'Ветка для сканирования')
         choice(name: 'env', choices: ['PROD', 'DEV', 'IFT'], description: 'Sample multi-choice parameter')
     }
@@ -87,7 +88,12 @@ pipeline {
                 }
             }
         }
-        stage('Add env on steps') {
+        stage('Env') {
+            when {
+                expression {
+                    return params.env
+                }
+            }
             steps {
                 echo "\033[35m========================Envirenments====================\033[0m"
                 script {
