@@ -67,10 +67,11 @@ pipeline {
             }
             steps {
                 echo "\033[32m==========================Parameters==========================\033[0m"
+                def sity = "Moscow"
                 echo "Name ${params.FIRST_NAME}"
                 echo "Password: ${params.PASSWORD}"
                 echo "$name"
-                echo "env.dima"
+                echo "$sity"
             }
         }
         stage ('if') {
