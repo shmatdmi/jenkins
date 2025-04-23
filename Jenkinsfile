@@ -11,7 +11,7 @@ pipeline {
         booleanParam(name: 'if', defaultValue: true, description: 'if else')
         booleanParam(name: 'env', defaultValue: true, description: 'env')       
         string(name: 'BRANCH_TO_SCAN', defaultValue: 'main', trim: true, description: 'Ветка для сканирования')
-        choice(name: 'env', choices: ['PROD', 'DEV', 'IFT'], description: 'Sample multi-choice parameter')
+        choice(name: 'stand', choices: ['PROD', 'DEV', 'IFT'], description: 'Sample multi-choice parameter')
     }
 
     environment {
