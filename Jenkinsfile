@@ -57,18 +57,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Example username password') {
-            agent any
-            environment {
-                SERVICE_CRED = credentials('github_cred') //добавил возможность использовать данные из cred jenkins
-            }
-            steps {
-                echo "\033[32m==========================Parameters==========================\033[0m" //отображаю параметры сборки
-                echo "Name ${params.FIRST_NAME}"
-                echo "Password: ${params.PASSWORD}"
-            }
-        }
         stage ('if') {
             options {
                 timeout(time: 1, unit: 'MINUTES') //таймаут выполнения этого шага
@@ -93,6 +81,9 @@ pipeline {
                 expression {
                     return params.env
                 }
+            }
+            environment {
+                SERVICE_CRED = credentials('github_cred') //добавил возможность использовать данные из cred jenkins
             }
             steps {
                 echo "\033[35m========================Envirenments====================\033[0m"
