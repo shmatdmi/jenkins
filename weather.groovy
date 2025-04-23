@@ -14,11 +14,6 @@ pipeline {
 
     stages {
         stage ('curl') {
-            when {
-                expression {
-                    return params.if
-                }
-            }
             steps {
                 echo "\033[32m==========================curl==========================\033[0m"
                 script {
