@@ -5,8 +5,7 @@ pipeline {
     }
 
     parameters {
-        string(name: 'FIRST_NAME', defaultValue: 'Dima', description: 'This is your name')
-        //text(name: 'MESSAGE', defaultValue: '', description: 'Enter some information about the news')
+        text(name: 'MESSAGE', defaultValue: '', description: 'Enter some information about the news')
         password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
         booleanParam(name: 'new_commit', defaultValue: true, description: 'Создание нового коммита')
         booleanParam(name: 'if', defaultValue: true, description: 'if else')
@@ -108,6 +107,7 @@ pipeline {
                 echo "This is path ${env.javaVersion}"
                 echo "This is path $javaVersion"
                 echo "\033[32m$sity\033[0m"
+                echo "$params.MESSAGE"
                 echo "${env.DATABASE}" //
                 sh 'printenv' //
             }
