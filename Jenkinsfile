@@ -81,9 +81,9 @@ pipeline {
                     return params.env
                 }
             }
-            environment {
+           /* environment {
                 SERVICE_CRED = credentials('github_cred') //добавил возможность использовать данные из cred jenkins
-            }
+            } */
             steps {
                 echo "\033[35m========================Envirenments====================\033[0m"
                 script {
