@@ -1,10 +1,6 @@
 pipeline {
     agent any
     environment {
-      APPLICATION_NAME="myapp"
-      REPOSITORY_NAME="myrepo"
-      FILENAME="${APPLICATION_NAME}-weather.json"
-      ALREADY_EXISTS="false"
     }
     triggers {
         cron('H 12 */3 * *')
@@ -27,8 +23,10 @@ pipeline {
             }
             steps {
                 echo "\033[32m==========================curl==========================\033[0m"
+                script {
                 def data =  '123'
                 echo "${data}"
+                }
             }
         }
     }
