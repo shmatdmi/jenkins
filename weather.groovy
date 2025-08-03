@@ -38,7 +38,7 @@ pipeline {
                     echo "Wind: ${data.wind.speed}"
                     echo "City: ${data.name}"
                     echo "Weather: ${data.weather.join(', ')}"
-                    echo ${data.main.temp}
+                    echo "${data.main.temp}"
                 }
             }
         }
