@@ -108,6 +108,8 @@ pipeline {
                 echo "This is path $javaVersion"
                 echo "\033[32m$sity\033[0m"
                 echo "$params.MESSAGE"
+                echo "\033[31m========================Workspace====================\033[0m"                
+                echo "Workspace $WORKSPACE"
                 echo "${env.DATABASE}" //
                 sh 'printenv' //
             }
