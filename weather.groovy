@@ -46,6 +46,11 @@ pipeline {
                 }
             }
         }
+        stage('Use global variable') {
+            steps {
+                echo "Global variable: ${env.CURRENT_TEMP}"
+            }
+        }
     }
     post {
         cleanup {
