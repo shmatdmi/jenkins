@@ -41,8 +41,8 @@ pipeline {
                     ${data.main.temp}
                     """
                     echo "${test}"
-                    env.CURRENT_TEMP = test
-                    echo ${env.CURRENT_TEMP}
+                    env.CURRENT_TEMP = ${test}
+                    echo "${env.CURRENT_TEMP}"
 
 
                 }
