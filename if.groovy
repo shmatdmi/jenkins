@@ -32,6 +32,7 @@ pipeline {
             }
             steps {
                 echo "\033[32m==========================if else stage==========================\033[0m"
+                script {
                     sh "cd ./data"
                     sh "curl -m 2 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric' > ./data/${APPLICATION_NAME}-weather.json"
                     sh "ls -la ./data"
@@ -45,21 +46,22 @@ pipeline {
                     echo "Wind: ${data.wind.speed}"
                     echo "City: ${data.name}"
                     echo "Weather: ${data.weather.join(', ')}"
-                // if-else
-                sh '''
-                  cd ./data
-                  if [ -f "${FILENAME}" ]; then
-                    echo "${FILENAME} exists"
-                    exit 0
-                    ALREADY_EXISTS="true"
-                  else
-                    echo "${FILENAME} does not exist"
-                    ALREADY_EXISTS="false"
-                    exit 1
-                  fi
-                  echo "ALREADY_EXISTS = ${ALREADY_EXISTS}"
-                  cd ..
-                ''' // exit переводит сборку в failed
+                    // if-else
+                    sh '''
+                    cd ./data
+                    if [ -f "${FILENAME}" ]; then
+                        echo "${FILENAME} exists"
+                        exit 0
+                        ALREADY_EXISTS="true"
+                    else
+                        echo "${FILENAME} does not exist"
+                        ALREADY_EXISTS="false"
+                        exit 1
+                    fi
+                    echo "ALREADY_EXISTS = ${ALREADY_EXISTS}"
+                    cd ..
+                    ''' // exit переводит сборку в failed
+                }
             }
         }
         stage('Подготовка нового коммита для сканирования') {
