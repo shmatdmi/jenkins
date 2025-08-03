@@ -35,17 +35,6 @@ pipeline {
                 script {
                     sh "cd ./data"
                     sh "curl -m 2 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric' > ./data/${APPLICATION_NAME}-weather.json"
-                    sh "ls -la ./data"
-                    // Предполагаем, что json хранится в файле
-                    def jsonContent = readFile(file: './data/myapp-weather.json')
-                    
-                    // Парсим JSON в объект
-                    def data = readJSON text: jsonContent
-                    
-                    echo "Temp: ${data.main.temp}"
-                    echo "Wind: ${data.wind.speed}"
-                    echo "City: ${data.name}"
-                    echo "Weather: ${data.weather.join(', ')}"
                     // if-else
                     sh '''
                     cd ./data
@@ -61,6 +50,14 @@ pipeline {
                     echo "ALREADY_EXISTS = ${ALREADY_EXISTS}"
                     cd ..
                     ''' // exit переводит сборку в failed
+                    // Предполагаем, что json хранится в файле
+                    def jsonContent = readFile(file: './data/myapp-weather.json')
+                    // Парсим JSON в объект
+                    def data = readJSON text: jsonContent
+                    echo "Temp: ${data.main.temp}"
+                    echo "Wind: ${data.wind.speed}"
+                    echo "City: ${data.name}"
+                    echo "Weather: ${data.weather.join(', ')}"
                 }
             }
         }
