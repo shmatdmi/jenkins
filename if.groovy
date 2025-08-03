@@ -45,7 +45,7 @@ pipeline {
                 echo "City: ${data.name}"
                 echo "Weather: ${data.weather.join(', ')}"
                 // if-else
-                sh ''' 
+                sh '''
                   cd ./data
                   if [ -f "${FILENAME}" ]; then
                     echo "${FILENAME} exists"
