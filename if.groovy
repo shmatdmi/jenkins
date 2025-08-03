@@ -51,6 +51,14 @@ pipeline {
                   echo "ALREADY_EXISTS = ${ALREADY_EXISTS}"
                   cd ..
                 ''' // exit переводит сборку в failed
+                // Предполагаем, что json хранится в файле
+                def jsonContent = readFile(file: './data/myapp-weather.json')
+                // Парсим JSON в объект
+                def data = readJSON text: jsonContent
+                echo "Temp: ${data.main.temp}"
+                echo "Wind: ${data.wind.speed}"
+                echo "City: ${data.name}"
+                echo "Weather: ${data.weather.join(', ')}"
             }
         }
         stage('Подготовка нового коммита для сканирования') {
