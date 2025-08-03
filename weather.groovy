@@ -38,10 +38,10 @@ pipeline {
                     echo "City: ${data.name}"
                     echo "Weather: ${data.weather.join(', ')}"
                     def test = """
-                    echo ${data.main.temp}
+                    echo "Temp: ${data.main.temp}"
                     """
-                    env.CURRENT_TEMP = test
-                    echo "${env.CURRENT_TEMP}"
+                    echo "${test}"
+
                 }
             }
         }
