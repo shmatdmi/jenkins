@@ -37,12 +37,9 @@ pipeline {
                     echo "Wind: ${data.wind.speed}"
                     echo "City: ${data.name}"
                     echo "Weather: ${data.weather.join(', ')}"
-                    def test = """
-                    ${data.main.temp}
-                    """
+                    def test = """${data.main.temp}
+"""
                     echo "${test}"
-                    env.CURRENT_TEMP = ${test}
-                    echo "${env.CURRENT_TEMP}"
 
 
                 }
