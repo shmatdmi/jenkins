@@ -4,7 +4,7 @@ pipeline {
         cron('H 12 */3 * *')
     }
     environment {
-      APPLICATION_NAME="myapp"
+      APPLICATION_NAME="msk"
     }
     options {
         timestamps()
@@ -30,7 +30,7 @@ pipeline {
                     sh "curl -m 2 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric' > ./data/${APPLICATION_NAME}-weather.json"
                     sh "ls -la ./data"
                     // Предполагаем, что json хранится в файле
-                    def jsonContent = readFile(file: './data/${APPLICATION_NAME}-weather.json')
+                    def jsonContent = readFile(file: './data/msk-weather.json')
                     
                     // Парсим JSON в объект
                     def data = readJSON text: jsonContent
