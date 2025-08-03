@@ -5,7 +5,7 @@ pipeline {
     }
     environment {
       APPLICATION_NAME="msk"
-      CURRENT_TEMP=""
+      CURRENT_TEMP="1"
     }
     options {
         timestamps()
