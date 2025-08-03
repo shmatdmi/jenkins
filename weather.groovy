@@ -21,6 +21,9 @@ pipeline {
                  "curl -m 2 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric'"
                  """
                 echo "${data}"
+                echo """
+                 "curl -m 2 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric'"
+                 """
                 }
             }
         }
