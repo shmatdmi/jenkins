@@ -5,6 +5,7 @@ pipeline {
     }
     environment {
       APPLICATION_NAME="msk"
+      CURRENT_TEMP=""
     }
     options {
         timestamps()
@@ -38,7 +39,8 @@ pipeline {
                     echo "Wind: ${data.wind.speed}"
                     echo "City: ${data.name}"
                     echo "Weather: ${data.weather.join(', ')}"
-                    echo "${data.main.temp}"
+                    env.CURRENT_TEMP = "${data.main.temp}"
+                    echo "${ env.CURRENT_TEMP}"
                 }
             }
         }
