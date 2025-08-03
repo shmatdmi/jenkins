@@ -32,6 +32,20 @@ pipeline {
                 }
             }
         }
+        stage('Parse JSON') {
+            steps {
+                // Предполагаем, что json хранится в файле config.json
+                def jsonContent = readFile(file: './data/myapp-weather.json')
+                
+                // Парсим JSON в объект
+                def data = readJSON text: jsonContent
+                
+                echo "Temp: ${data.main.temp}"
+                echo "Wind: ${data.wind.speed}"
+                echo "City: ${data.name}"
+                echo "Weather: ${data.weather.join(', ')}"
+            }
+        }
     }
     post {
         cleanup {
