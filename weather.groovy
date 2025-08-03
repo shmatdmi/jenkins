@@ -25,7 +25,7 @@ pipeline {
                     echo "\033[31m Waiting... \033[0m"
                     sleep 3
                     mkdir ./data
-                    sh "curl -m 2 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric' > ./data/${APPLICATION_NAME}-weather.json"
+                    sh "curl -m 2 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric' > ./${APPLICATION_NAME}-weather.json"
                     sh "ls -la ./data"
                 }
             }
