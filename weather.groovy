@@ -34,7 +34,7 @@ pipeline {
                     // Парсим JSON в объект
                     def data = readJSON text: jsonContent
                     
-                    def TEMP = echo "Temp: ${data.main.temp}"
+                    def TEMP = 'echo "Temp: ${data.main.temp}"'
                     echo "Wind: ${data.wind.speed}"
                     echo "City: ${data.name}"
                     echo "Weather: ${data.weather.join(', ')}"
