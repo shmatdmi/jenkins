@@ -17,12 +17,10 @@ pipeline {
             steps {
                 echo "\033[32m==========================curl==========================\033[0m"
                 script {
-                def data = """
-                 sh curl -m 2 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric'
-                 """
-                echo "${data}"
-                sh "curl -m 2 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric'"
-                
+                def response = sh(script: 'curl -m 2 "https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric', returnStdout: true).trim()
+                echo "waiting"
+                sh sleep 3
+                echo "Response from server: ${response}"
                 }
             }
         }
