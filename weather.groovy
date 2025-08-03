@@ -3,6 +3,9 @@ pipeline {
     triggers {
         cron('H 12 */3 * *')
     }
+    environment {
+      APPLICATION_NAME="myapp"
+    }
     options {
         timestamps()
         ansiColor('xterm')
@@ -21,8 +24,9 @@ pipeline {
                     echo "Response from server: ${response}"
                     echo "\033[31m Waiting... \033[0m" 
                     sleep 3
-                    sh(script: 'curl -v "https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric"', returnStdout: true).trim() > weather.json
-                    sh 'ls -laht'
+                    mkdir ./data
+                    sh "curl -m 2 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric' > ./data/${APPLICATION_NAME}-weather.json"
+                    sh "ls -la ./data"
                 }
             }
         }
