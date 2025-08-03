@@ -23,6 +23,8 @@ pipeline {
                     def response = sh(script: "curl -v 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric'", returnStdout: true).trim()
                     echo "Response from server: ${response}"
                     echo "\033[31m Waiting... \033[0m"
+                    sleep 2
+                    sh "rm -rf ./data"
                     sh "mkdir ./data"
                     sh "cd ./data"
                     sh "curl -m 2 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric' > ./data/${APPLICATION_NAME}-weather.json"
