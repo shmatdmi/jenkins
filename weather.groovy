@@ -28,19 +28,17 @@ pipeline {
                     sh "rm -rf ./data"
                     sh "mkdir ./data"
                     sh "cd ./data"
-                    sh "curl -v 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric' > ./data/${APPLICATION_NAME}-weather.json"
+                    sh "curl 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric' > ./data/${APPLICATION_NAME}-weather.json"
                     // Предполагаем, что json хранится в файле
                     def jsonContent = readFile(file: './data/msk-weather.json')
-                    
                     // Парсим JSON в объект
                     def data = readJSON text: jsonContent
-                    
                     echo "Temp: ${data.main.temp}"
                     echo "Wind: ${data.wind.speed}"
                     echo "City: ${data.name}"
                     echo "Weather: ${data.weather.join(', ')}"
-                    env.CURRENT_TEMP = "${data.main.temp}"
-                    echo "${ env.CURRENT_TEMP}"
+                    env.CURRENT_TEMP = echo "${data.main.temp}"
+                    echo "${env.CURRENT_TEMP}"
                 }
             }
         }
