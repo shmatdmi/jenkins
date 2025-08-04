@@ -36,7 +36,6 @@ pipeline {
                     echo "Weather: ${data.weather.join(', ')}"
                     env.TEMP = "${data.main.temp}"
                     echo "Global variable: ${env.TEMP}"
-                    env.CURRENT_TEMP = TEST
                 }
             }
         }
