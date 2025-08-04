@@ -5,6 +5,7 @@ pipeline {
       REPOSITORY_NAME="myrepo"
       FILENAME="${APPLICATION_NAME}-weather.json"
       ALREADY_EXISTS="false"
+      MAIL="sberlinux@ya.ru"
     }
     triggers {
         cron('H 12 */3 * *')
@@ -35,7 +36,6 @@ pipeline {
                 script {
                     sh "cd ./data"
                     sh "curl -m 2 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric' > ./data/${APPLICATION_NAME}-weather.json"
-                    // if-else
                     sh '''
                     cd ./data
                     if [ -f "${FILENAME}" ]; then
@@ -53,50 +53,18 @@ pipeline {
                 }
             }
         }
-        stage('Подготовка нового коммита для сканирования') {
-            options {
-                timeout(time: 1, unit: 'MINUTES')
-            }
-            when {
-                expression {
-                    return params.new_commit
-                }
-            }
-        
-            steps {
-            echo "\033[32m==========================New commit stage==========================\033[0m"
-            sshagent(['ssh-dima']) {
-            sh "git checkout ${env.BRANCH_TO_SCAN}"
-            //writeFile file: 'code.groovy', text: "echo '${new Date()} [${env.BUILD_NUMBER}]'\necho '${env.BRANCH_TO_SCAN} of ${env.GIT_URL}'\necho '${UUID.randomUUID().toString()}'"
-            writeFile file: 'code.groovy', text: "cat '[${env.FILENAME}]'\necho '${env.BRANCH_TO_SCAN} of ${env.GIT_URL}'\necho '${UUID.randomUUID().toString()}'"         
-            sh 'git add code.groovy'
-            sh "git commit -am \"Auto #${env.BUILD_NUMBER}\""
-            sh "git push origin ${env.BRANCH_TO_SCAN}:${env.BRANCH_TO_SCAN}"
-            }
-                script {
-                    env.COMMIT_HASH = "${sh returnStdout: true, script: 'git rev-parse HEAD'}".trim()
-                }
-                echo "\033[32m==========\n\nNew commit hash: ${env.COMMIT_HASH}\n\n==========\033[0m"
-            }
-            post {
-                failure {
-                    script {
-                        env.FAILED_STAGE = 'Подготовка нового коммита для сканирования'
-                    }
-                }
-            }
-        }
         stage('Parsing json') {
             steps {
                 script {
                     // Предполагаем, что json хранится в файле
-                    def jsonContent = readFile(file: './data/myapp-weather.json')
+                    def jsonContent = readFile(file: "./data/${APPLICATION_NAME}-weather.json")
                     // Парсим JSON в объект
                     def data = readJSON text: jsonContent
                     echo "Temp: ${data.main.temp}"
                     echo "Wind: ${data.wind.speed}"
                     echo "City: ${data.name}"
                     echo "Weather: ${data.weather.join(', ')}"
+                    env.TEMP = "${data.main.temp}"
                 }
             }
         }
@@ -104,6 +72,7 @@ pipeline {
             steps {
                 echo "Starting release on $params.BRANCH_TO_SCAN branch" // пример вывода параметра
                 echo "Environment example: $env.REPOSITORY_NAME"
+                echo "Environment example: $env.TEMP"
             }
         }
     }
@@ -112,7 +81,7 @@ pipeline {
                 cleanWs disableDeferredWipeout: true, deleteDirs: true
         }
         failure {
-            mail to: 'shmatov787@gmail.com',
+            mail to: "${env.MAIL}",
             subject: "Failure project - Jenkins Pipeline: ${currentBuild.fullDisplayName}",
             body: "Your build FAILED, please check: ${env.BUILD_URL}"
         }
