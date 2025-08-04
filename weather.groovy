@@ -51,7 +51,7 @@ pipeline {
     post {
         cleanup {
                 cleanWs disableDeferredWipeout: true, deleteDirs: true
-            }
+        }
         success {
             mail to: "${env.MAIL}",
             subject: "Погода в Москве сейчас",
@@ -64,5 +64,5 @@ pipeline {
             body: "Failure project - Jenkins Pipeline: ${currentBuild.fullDisplayName}"
             echo 'Im failed'
         }
-    }   
+    }
 }
