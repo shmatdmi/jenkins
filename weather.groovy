@@ -1,7 +1,7 @@
 pipeline {
     agent any
     triggers {
-        cron('H 7-23 */2 * *')
+        cron('H 7-23/2 * * *')
     }
     environment {
       APPLICATION_NAME="msk"
