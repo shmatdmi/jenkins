@@ -104,7 +104,6 @@ pipeline {
             steps {
                 echo "Starting release on $params.BRANCH_TO_SCAN branch" // пример вывода параметра
                 echo "Environment example: $env.REPOSITORY_NAME"
-                echo "Temp: ${data.main.temp}"
             }
         }
     }
