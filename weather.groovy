@@ -5,7 +5,6 @@ pipeline {
     }
     environment {
       APPLICATION_NAME="msk"
-      CURRENT_TEMP="1"
     }
     options {
         timestamps()
@@ -23,8 +22,6 @@ pipeline {
                 script {
                     def response = sh(script: "curl -v 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric'", returnStdout: true).trim()
                     echo "Response from server: ${response}"
-                    echo "\033[33m Waiting... \033[0m"
-                    sleep 2
                     sh "rm -rf ./data"
                     sh "mkdir ./data"
                     sh "cd ./data"
@@ -37,16 +34,15 @@ pipeline {
                     echo "Wind: ${data.wind.speed}"
                     echo "City: ${data.name}"
                     echo "Weather: ${data.weather.join(', ')}"
-                    def TEST = """${data.main.temp}
-"""
-                    echo "Local variable: ${TEST}"
+                    env.TEMP = "${data.main.temp}"
+                    echo "Global variable: ${env.TEMP}"
                     env.CURRENT_TEMP = TEST
                 }
             }
         }
         stage('Use global variable') {
             steps {
-                echo "Global variable: ${env.CURRENT_TEMP}"
+                    echo "Global variable: ${env.TEMP}"
             }
         }
     }
