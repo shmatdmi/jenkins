@@ -40,7 +40,7 @@ pipeline {
                     def test = """${data.main.temp}
 """
                     echo "Local variable: ${test}"
-                    CURRENT_TEMP = test
+                    env.CURRENT_TEMP = test
                 }
             }
         }
