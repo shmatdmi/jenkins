@@ -55,13 +55,13 @@ pipeline {
         success {
             mail to: "${env.MAIL}",
             subject: "Temp: ${env.TEMP} Wind: ${env.WIND}",
-            body: "Your build Success, please check: ${env.BUILD_URL}"
+            body: "Температура в Москве: ${env.TEMP} Скорость ветра: ${env.WIND}"
             echo 'Im success'
         }
         failure {
             mail to: "${env.MAIL}",
             subject: "Failure project - Jenkins Pipeline: ${currentBuild.fullDisplayName}",
-            body: "Your build FAILED, please check: ${env.BUILD_URL}"
+            body: "Failure project - Jenkins Pipeline: ${currentBuild.fullDisplayName}"
             echo 'Im failed'
         }
     }   
