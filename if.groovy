@@ -15,9 +15,8 @@ pipeline {
         ansiColor('xterm')
     }
     parameters {
-        booleanParam(name: 'new_commit', defaultValue: true, description: 'Создание нового коммита')
         booleanParam(name: 'if', defaultValue: true, description: 'if else stage')
-        string(name: 'BRANCH_TO_SCAN', defaultValue: 'main', trim: true, description: 'Ветка для сканирования')
+        string(name: 'BRANCH_TO_SCAN', defaultValue: 'educations', trim: true, description: 'Ветка для сканирования')
         choice(name: 'env', choices: ['PROD', 'DEV', 'IFT'], description: 'Sample multi-choice parameter')
     }
 
