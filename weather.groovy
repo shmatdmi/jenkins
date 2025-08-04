@@ -54,9 +54,8 @@ pipeline {
             }
         success {
             mail to: "${env.MAIL}",
-            subject: "Temp: ${env.TEMP} Wind: ${env.WIND}",
-            body: """Погода в Москве сейчас.
-            Температура: ${env.TEMP}, Скорость ветра: ${env.WIND}"""
+            subject: "Погода в Москве сейчас",
+            body: """Температура: ${env.TEMP}, Скорость ветра: ${env.WIND}"""
             echo 'Im success'
         }
         failure {
