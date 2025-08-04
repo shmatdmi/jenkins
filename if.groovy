@@ -50,14 +50,6 @@ pipeline {
                     echo "ALREADY_EXISTS = ${ALREADY_EXISTS}"
                     cd ..
                     ''' // exit переводит сборку в failed
-                    // Предполагаем, что json хранится в файле
-                    def jsonContent = readFile(file: './data/myapp-weather.json')
-                    // Парсим JSON в объект
-                    def data = readJSON text: jsonContent
-                    echo "Temp: ${data.main.temp}"
-                    echo "Wind: ${data.wind.speed}"
-                    echo "City: ${data.name}"
-                    echo "Weather: ${data.weather.join(', ')}"
                 }
             }
         }
@@ -108,7 +100,7 @@ pipeline {
                 }
             }
         }
-        stage('Release') {
+        stage('Other') {
             steps {
                 echo "Starting release on $params.BRANCH_TO_SCAN branch" // пример вывода параметра
                 echo "Environment example: $env.REPOSITORY_NAME"
