@@ -28,7 +28,7 @@ pipeline {
                     sh "cd ./data"
                     sh "curl 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric' > ./data/${APPLICATION_NAME}-weather.json"
                     // Предполагаем, что json хранится в файле
-                    def jsonContent = readFile(file: './data/msk-weather.json')
+                    def jsonContent = readFile(file: "./data/${APPLICATION_NAME}-weather.json")
                     // Парсим JSON в объект
                     def data = readJSON text: jsonContent
                     echo "Temp: ${data.main.temp}"
