@@ -1,10 +1,11 @@
 pipeline {
     agent any
     triggers {
-        cron('H 12 */3 * *')
+        cron('H 7-23 */2 * *')
     }
     environment {
       APPLICATION_NAME="msk"
+      MAIL="sberlinux@ya.ru"
     }
     options {
         timestamps()
@@ -35,6 +36,7 @@ pipeline {
                     echo "City: ${data.name}"
                     echo "Weather: ${data.weather.join(', ')}"
                     env.TEMP = "${data.main.temp}"
+                    env.WIND = "${data.wind.speed}"                    
                     echo "Global variable: ${env.TEMP}"
                 }
             }
@@ -42,12 +44,25 @@ pipeline {
         stage('Use global variable') {
             steps {
                     echo "Global variable: ${env.TEMP}"
+                    echo "Global variable: ${env.WIND}"
             }
         }
     }
     post {
         cleanup {
                 cleanWs disableDeferredWipeout: true, deleteDirs: true
+            }
+        success {
+            mail to: "${env.MAIL}",
+            subject: "Temp: ${env.TEMP} Wind: ${env.WIND}",
+            body: "Your build Success, please check: ${env.BUILD_URL}"
+            echo 'Im success'
         }
-    }
+        failure {
+            mail to: "${env.MAIL}",
+            subject: "Failure project - Jenkins Pipeline: ${currentBuild.fullDisplayName}",
+            body: "Your build FAILED, please check: ${env.BUILD_URL}"
+            echo 'Im failed'
+        }
+    }   
 }
