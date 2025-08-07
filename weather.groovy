@@ -1,7 +1,7 @@
 pipeline {
     agent any
     triggers {
-        cron('H 7-23/2 * * *')
+        cron('1 7-23/3 * * *')
     }
     environment {
       APPLICATION_NAME="msk"
@@ -17,7 +17,7 @@ pipeline {
     }
 
     stages {
-        stage ('curl') {
+        stage ('curl weather') {
             steps {
                 echo "\033[32m==========================curl==========================\033[0m"
                 script {
