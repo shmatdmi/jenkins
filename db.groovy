@@ -13,7 +13,7 @@ pipeline {
         string(name: 'TEMPERAURE', defaultValue: '', trim: true, description: 'Температура сейчас')
         string(name: 'WEAT', defaultValue: '', trim: true, description: 'Ощущения погоды')
         string(name: 'LOCATION', defaultValue: 'Очаково', trim: true, description: 'Место выполнения сборки')
-        choice(name: 'День недели', choices: ['Понедельник', 'Вторник', 'Среда','Четверг', 'Пятница', 'Суббота', 'Воскресенье'], description: 'Выберите день недели')
+        choice(name: 'DAY_WEEK', choices: ['Понедельник', 'Вторник', 'Среда','Четверг', 'Пятница', 'Суббота', 'Воскресенье'], description: 'Выберите день недели')
     }
 
     stages {
@@ -27,8 +27,7 @@ pipeline {
                     )]) {
                         sh """
                             PGPASSWORD=\"\$DB_PASS\" psql -h ${POSTGRES_HOST} -U \"\$DB_USER\" -d ${POSTGRES_DBNAME} -w <<EOF
-                            select * from public.weather;
-                            insert into public.weather(weat, temperature, locaton, day_week) values ('Солнечно', 20, 'Очаково', 'Суббота');
+                            insert into public.weather(weat, temperature, locaton, day_week) values ('${params.WEAT}', ${params.TEMPERAURE}, '${params.LOCATION}', '${params.DAY_WEEK}');
                             EOF
                         """
                     }
