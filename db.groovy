@@ -12,7 +12,7 @@ pipeline {
                     )]) {
                         sh """
                             PGPASSWORD=\"\$DB_PASS\" psql -h 88.151.117.221 -U \"\$DB_USER\" -d postgres_db -w <<EOF
-                              SELECT * FROM public.cars;
+                              update cars set color = 'Blue', price = 11000 where "year" = 2002;
                             EOF
                         """
                     }
