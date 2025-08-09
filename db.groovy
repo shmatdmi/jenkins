@@ -13,7 +13,7 @@ pipeline {
         string(name: 'TEMPERAURE', defaultValue: '', trim: true, description: 'Температура сейчас')
         string(name: 'WEAT', defaultValue: '', trim: true, description: 'Ощущения погоды')
         string(name: 'LOCATION', defaultValue: 'Очаково', trim: true, description: 'Место выполнения сборки')
-        choice(name: 'День недели', choices: ['Понедельник', 'Вторник', 'Среда','Четверг', 'Пятница', 'Суббота', 'Воскресенье'] description: 'Выберите день недели')
+        choice(name: 'День недели', choices: ['Понедельник', 'Вторник', 'Среда','Четверг', 'Пятница', 'Суббота', 'Воскресенье'], description: 'Выберите день недели')
     }
 
     stages {
