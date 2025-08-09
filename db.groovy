@@ -17,14 +17,12 @@ pipeline {
                                                      usernameVariable: 'DB_USER',
                                                      passwordVariable: 'DB_PASS')]) {
                         try {
-                            sh '''
-                                export PGPASSWORD="${DB_PASS}"
-                                psql -h ${POSTGRES_HOST} \
-                                     -p ${POSTGRES_PORT} \
-                                     -U ${DB_USER} \
-                                     -d ${POSTGRES_DBNAME} \
-                                     -c "SELECT * FROM public.cars;"
-                            '''
+                        sh """
+                            export PGPASSWORD=\"\$DB_PASS\"
+                            psql -h 88.151.117.221 -U \"\$DB_USER\" -d postgres_db <<EOF
+                              SELECT * FROM public.cars;
+                            EOF
+                        """
                         } finally {
                             unset PGPASSWORD
                         }
