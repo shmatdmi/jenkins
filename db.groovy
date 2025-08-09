@@ -9,6 +9,11 @@ pipeline {
         POSTGRES_PASSWORD = credentials('postgres_password')
     }
 
+    options {
+        timestamps()
+        ansiColor('xterm')
+    }
+
     parameters {
         string(name: 'TEMPERAURE', defaultValue: '', trim: true, description: 'Температура сейчас')
         string(name: 'WEAT', defaultValue: '', trim: true, description: 'Ощущения погоды')
