@@ -4,9 +4,16 @@ pipeline {
     environment {
         POSTGRES_HOST     = credentials('postgres_host')
         POSTGRES_PORT     = '5432'
-        POSTGRES_DBNAME   = 'mydatabase'
+        POSTGRES_DBNAME   = 'postgres_db'
         POSTGRES_USERNAME = credentials('postgres_user')
         POSTGRES_PASSWORD = credentials('postgres_password')
+    }
+
+    parameters {
+        string(name: 'TEMPERAURE', defaultValue: '', trim: true, description: 'Температура сейчас')
+        string(name: 'WEAT', defaultValue: '', trim: true, description: 'Ощущения погоды')
+        string(name: 'LOCATION', defaultValue: 'Очаково', trim: true, description: 'Место выполнения сборки')
+        choice(name: 'День недели', choices: ['Понедельник', 'Вторник', 'Среда','Четверг', 'Пятница', 'Суббота', 'Воскресенье'] description: 'Выберите день недели')
     }
 
     stages {
@@ -19,12 +26,9 @@ pipeline {
                         passwordVariable: 'DB_PASS'
                     )]) {
                         sh """
-                            PGPASSWORD=\"\$DB_PASS\" psql -h ${POSTGRES_HOST} -U \"\$DB_USER\" -d postgres_db -w <<EOF
-                              SELECT * FROM public.cars;
-                              update cars set color = 'Blue', price = 11000 where "year" = 2002;
-                              SELECT * FROM public.cars;
+                            PGPASSWORD=\"\$DB_PASS\" psql -h ${POSTGRES_HOST} -U \"\$DB_USER\" -d ${POSTGRES_DBNAME} -w <<EOF
+                            insert into public.weather(weat, temperature, locaton, day_week) values ('Солнечно', 19, 'Очаково', 'Суббота')
                             EOF
-
                         """
                     }
                 }
