@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     environment {
-        POSTGRES_HOST     = credentials('postgres-host')
+        POSTGRES_HOST     = credentials('postgres_host')
         POSTGRES_PORT     = '5432'
         POSTGRES_DBNAME   = 'mydatabase'
-        POSTGRES_USERNAME = credentials('postgres-user')
-        POSTGRES_PASSWORD = credentials('postgres-password')
+        POSTGRES_USERNAME = credentials('postgres_user')
+        POSTGRES_PASSWORD = credentials('postgres_password')
     }
 
     stages {
