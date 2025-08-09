@@ -11,8 +11,8 @@ pipeline {
                         passwordVariable: 'DB_PASS'
                     )]) {
                         sh """
-                            psql -h 88.151.117.221 -U \"\$DB_USER\" -d postgres_db -w \\
-                                  -v PGPASSWORD=\"\$DB_PASS\" <<EOF
+                            PGPASSWORD=\"\$DB_PASS\" psql -h 88.151.117.221 -U \"\$DB_USER\" -d postgres_db -w
+                            <<EOF
                               SELECT * FROM public.cars';
                             EOF
                         """
