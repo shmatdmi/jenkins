@@ -4,8 +4,14 @@ pipeline {
         cron('1 7-23/3 * * *')
     }
     environment {
-      APPLICATION_NAME="msk"
-      MAIL="sberlinux@ya.ru"
+        APPLICATION_NAME="msk"
+        MAIL="sberlinux@ya.ru"
+        POSTGRES_HOST     = credentials('postgres_host')
+        POSTGRES_PORT     = '5432'
+        POSTGRES_DBNAME   = 'postgres_db'
+        POSTGRES_USERNAME = credentials('postgres_user')
+        POSTGRES_PASSWORD = credentials('postgres_password')
+    }
     }
     options {
         timestamps()
@@ -41,10 +47,21 @@ pipeline {
                 }
             }
         }
-        stage('Use global variable') {
+        stage('Database Update') {
             steps {
-                    echo "Global variable: ${env.TEMP}"
-                    echo "Global variable: ${env.WIND}"
+                script {
+                    withCredentials([usernamePassword(
+                        credentialsId: 'postgres-user-pass',
+                        usernameVariable: 'DB_USER',
+                        passwordVariable: 'DB_PASS'
+                    )]) {
+                        sh """
+                            PGPASSWORD=\"\$DB_PASS\" psql -h ${POSTGRES_HOST} -p ${POSTGRES_PORT} -U \"\$DB_USER\" -d ${POSTGRES_DBNAME} -w <<EOF
+                            select * from public.weather;
+                            EOF
+                        """
+                    }
+                }
             }
         }
     }
