@@ -12,7 +12,6 @@ pipeline {
         POSTGRES_USERNAME = credentials('postgres_user')
         POSTGRES_PASSWORD = credentials('postgres_password')
     }
-    }
     options {
         timestamps()
         ansiColor('xterm')
@@ -81,4 +80,5 @@ pipeline {
             echo 'Im failed'
         }
     }
+}
 }
