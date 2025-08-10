@@ -41,7 +41,9 @@ pipeline {
                     echo "City: ${data.name}"
                     echo "Weather: ${data.weather.join(', ')}"
                     env.TEMP = "${data.main.temp}"
-                    env.WIND = "${data.wind.speed}"                    
+                    env.WIND = "${data.wind.speed}"
+                    env.CITY = "${data.name}"
+                    env.META_DATA = "${data.weather.join(', ')}"                  
                     echo "Global variable: ${env.TEMP}"
                 }
             }
@@ -56,7 +58,7 @@ pipeline {
                     )]) {
                         sh """
                             PGPASSWORD=\"\$DB_PASS\" psql -h ${POSTGRES_HOST} -p ${POSTGRES_PORT} -U \"\$DB_USER\" -d ${POSTGRES_DBNAME} -w <<EOF
-                            insert into public.stat_weather(temperature, wind_speed, city, meta_data) values ('${data.main.temp}', ${data.wind.speed}, '${data.name}', '${data.wind.speed}');
+                            insert into public.stat_weather(temperature, wind_speed, city, meta_data) values ('${env.TEMP}', ${env.WIND}, '${env.CITY}', '${env.META_DATA}');
                             EOF
                         """
                     }
