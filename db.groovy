@@ -18,7 +18,7 @@ pipeline {
         choice(name: 'TYPE', choices: ['Подтягивания', 'Отжимания', 'Пресс','Приседания', 'Бег'], description: 'Выберите вид упражений')
         string(name: 'COUNT', defaultValue: '', trim: true, description: 'Количество упражнений')
         string(name: 'LOCATION', defaultValue: 'Очаково', trim: true, description: 'Место выполнения упраженения')
-        string(name: 'TIME', defaultValue: '', trim: true, description: 'Ощущения погоды')
+        string(name: 'TIME', defaultValue: '', trim: true, description: 'Время выполнения')
     }
 
     stages {
