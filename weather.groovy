@@ -64,7 +64,6 @@ pipeline {
                 }
             }
         }
-    }
     post {
         cleanup {
                 cleanWs disableDeferredWipeout: true, deleteDirs: true
