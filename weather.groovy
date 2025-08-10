@@ -63,6 +63,7 @@ pipeline {
                 }
             }
         }
+    }
     post {
         cleanup {
                 cleanWs disableDeferredWipeout: true, deleteDirs: true
@@ -80,5 +81,4 @@ pipeline {
             echo 'Im failed'
         }
     }
-}
 }
