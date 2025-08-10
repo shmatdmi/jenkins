@@ -15,10 +15,10 @@ pipeline {
     }
 
     parameters {
-        string(name: 'TEMPERAURE', defaultValue: '', trim: true, description: 'Температура сейчас')
-        string(name: 'WEAT', defaultValue: '', trim: true, description: 'Ощущения погоды')
-        string(name: 'LOCATION', defaultValue: 'Очаково', trim: true, description: 'Место выполнения сборки')
-        choice(name: 'DAY_WEEK', choices: ['Понедельник', 'Вторник', 'Среда','Четверг', 'Пятница', 'Суббота', 'Воскресенье'], description: 'Выберите день недели')
+        choice(name: 'TYPE', choices: ['Подтягивания', 'Отжимания', 'Пресс','Приседания', 'Бег'], description: 'Выберите вид упражений')
+        string(name: 'COUNT', defaultValue: '', trim: true, description: 'Количество упражнений')
+        string(name: 'LOCATION', defaultValue: 'Очаково', trim: true, description: 'Место выполнения упраженения')
+        string(name: 'TIME', defaultValue: '', trim: true, description: 'Ощущения погоды')
     }
 
     stages {
@@ -32,7 +32,7 @@ pipeline {
                     )]) {
                         sh """
                             PGPASSWORD=\"\$DB_PASS\" psql -h ${POSTGRES_HOST} -p ${POSTGRES_PORT} -U \"\$DB_USER\" -d ${POSTGRES_DBNAME} -w <<EOF
-                            insert into public.weather(weat, temperature, locaton, day_week) values ('${params.WEAT}', ${params.TEMPERAURE}, '${params.LOCATION}', '${params.DAY_WEEK}');
+                            insert into public.stat_sport(type_sport, count_sport, location_sport, time_sport) values ('${params.TYPE}', ${params.COUNT}, '${params.LOCATION}', '${params.TIME}');
                             EOF
                         """
                     }
