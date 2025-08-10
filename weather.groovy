@@ -57,8 +57,9 @@ pipeline {
                         passwordVariable: 'DB_PASS'
                     )]) {
                         sh """
-                            PGPASSWORD=\"\$DB_PASS\" psql -h ${POSTGRES_HOST} -p ${POSTGRES_PORT} -U \"\$DB_USER\" -d ${POSTGRES_DBNAME} -w
+                            PGPASSWORD=\"\$DB_PASS\" psql -h ${POSTGRES_HOST} -p ${POSTGRES_PORT} -U \"\$DB_USER\" -d ${POSTGRES_DBNAME} -w <<EOF
                             insert into public.stat_weather(temperature, wind_speed, city, meta_data) values ('${env.TEMP}', ${env.WIND}, '${env.CITY}', '${env.META_DATA}');
+                            EOF
                         """
                     }
                 }
