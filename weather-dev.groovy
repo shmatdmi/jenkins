@@ -46,7 +46,7 @@ pipeline {
                     env.CITY = "${data.name}"
                     env.META_DATA = "${data.weather.join(', ')}"
                     env.MAIN = "${data['weather'][0]['main']}"               
-                    echo "Global variable: ${env.TEMP}"
+                    echo "Global variable: ${env.MAIN}"
                     
                 }
             }
