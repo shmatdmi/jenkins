@@ -40,11 +40,14 @@ pipeline {
                     echo "Wind: ${data.wind.speed}"
                     echo "City: ${data.name}"
                     echo "Weather: ${data.weather.join(', ')}"
+                    echo "Weather: ${data['weather'][0]['main']}"
                     env.TEMP = "${data.main.temp}"
                     env.WIND = "${data.wind.speed}"
                     env.CITY = "${data.name}"
-                    env.META_DATA = "${data.weather.join(', ')}"                  
+                    env.META_DATA = "${data.weather.join(', ')}" 
+                    env.MAIN = "${data['weather'][0]['main']}"             
                     echo "Global variable: ${env.TEMP}"
+                    
                 }
             }
         }
@@ -73,7 +76,7 @@ pipeline {
         success {
             mail to: "${env.MAIL}",
             subject: "Погода в Москве сейчас",
-            body: """Температура: ${env.TEMP}, Скорость ветра: ${env.WIND}"""
+            body: """Температура: ${env.TEMP}, Скорость ветра: ${env.WIND}, На улице: ${env.MAIN}"""
             echo 'Im success'
         }
         failure {
