@@ -17,8 +17,7 @@ pipeline {
         ansiColor('xterm')
     }
     parameters {
-        string(name: 'BRANCH_TO_SCAN', defaultValue: 'main', trim: true, description: 'Ветка для сканирования')
-        choice(name: 'env', choices: ['PROD', 'DEV', 'IFT'], description: 'Sample multi-choice parameter')
+        choice(name: 'Type build', choices: ['Write DB', 'No write DB', 'Other'], description: 'Sample multi-choice parameter')
     }
 
     stages {
