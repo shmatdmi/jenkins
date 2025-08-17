@@ -54,10 +54,12 @@ pipeline {
         stage('if') {
             steps {
                 script {
-                    if (env.MAIN == 'Clouds') {
-                        env.MAIN_POST = "Облачно"
+                    if (env.MAIN == 'Clear') {
+                        env.MAIN_POST = "Ясно"
                     } else if (env.MAIN == 'Rain') {
                         env.MAIN_POST = "Дождь"
+                    } else if (env.MAIN == 'Clouds') {
+                        env.MAIN_POST = "Облачно"
                     } else {
                         env.MAIN_POST = "Не определено"
                     }
