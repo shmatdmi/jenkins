@@ -17,7 +17,7 @@ pipeline {
         ansiColor('xterm')
     }
     parameters {
-        choice(name: 'Type build', choices: ['Write DB', 'No write DB', 'Other'], description: 'Sample multi-choice parameter')
+        booleanParam(name: 'write_db', defaultValue: true, description: 'Запись в БД')
     }
 
     stages {
@@ -71,6 +71,11 @@ pipeline {
             }
         }
         stage('Database Update') {
+            when {
+                expression {
+                    return params.write_db
+                }
+            }
             steps {
                 script {
                     withCredentials([usernamePassword(
