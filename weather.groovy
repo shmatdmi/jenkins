@@ -51,6 +51,26 @@ pipeline {
                 }
             }
         }
+        stage('if') {
+            steps {
+                script {
+                    if (env.MAIN == 'Clear') {
+                        env.MAIN_POST = "Ясно"
+                    } else if (env.MAIN == 'Rain') {
+                        env.MAIN_POST = "Дождь"
+                    } else if (env.MAIN == 'Clouds') {
+                        env.MAIN_POST = "Облачно"
+                    } else {
+                        env.MAIN_POST = "Не определено"
+                    }
+                }
+            }
+        }
+        stage('echo env') {
+            steps {
+                echo "Main post env: ${MAIN_POST}"
+            }
+        }
         stage('Database Update') {
             steps {
                 script {
@@ -76,8 +96,7 @@ pipeline {
         success {
             mail to: "${env.MAIL}",
             subject: "Погода в Москве сейчас",
-            body: """Температура: ${env.TEMP}, Скорость ветра: ${env.WIND}, На улице: ${env.MAIN}"""
-            echo 'Im success'
+            body: """Температура: ${env.TEMP}, Скорость ветра: ${env.WIND}, На улице: ${env.MAIN_POST}"""
         }
         failure {
             mail to: "${env.MAIL}",
