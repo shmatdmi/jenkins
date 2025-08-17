@@ -51,6 +51,24 @@ pipeline {
                 }
             }
         }
+        stage('if') {
+            steps {
+                script {
+                    if ("${env.MAIN}}" == 'Clouds') {
+                        env.MAIN_POST = "Облачно"
+                    } else if ("${env.MAIN}" == 'Rain') {
+                        env.MAIN_POST = "Дождь"
+                    } else {
+                        env.MAIN_POST = "Не определено"
+                    }
+                }
+            }
+        }
+        stage('echo env') {
+            steps {
+                echo "Main post env ${MAIN_POST}"
+            }
+        }
     }
     post {
         cleanup {
