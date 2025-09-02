@@ -21,7 +21,16 @@ pipeline {
             }
             steps {
                 echo "choise: test"
-                currentBuild.result = 'UNSTABLE'
+                script {
+                    try {
+                        // Выполняем какой-то потенциально опасный шаг
+                        sh 'command_that_might_fail'
+                    } catch(err) {
+                        println("Ошибка: ${err}")
+                        // Меняем статус сборки на UNSTABLE
+                        currentBuild.result = 'UNSTABLE'
+                    }
+                }
             }
         }
         
