@@ -21,6 +21,7 @@ pipeline {
             }
             steps {
                 echo "choise: test"
+                currentBuild.result = 'UNSTABLE'
             }
         }
         
