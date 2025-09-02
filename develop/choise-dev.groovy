@@ -12,7 +12,7 @@ pipeline {
                 echo "Подготовительный этап..."
                 script {
                     if ("${params.RUN_TESTS}") {
-                        echo 'spartak' // Установка зависимостей
+                        echo 'yes' // Установка зависимостей
                     }
                 }
             }
