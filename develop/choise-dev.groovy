@@ -28,7 +28,7 @@ pipeline {
                     } catch(err) {
                         println("Ошибка: ${err}")
                         // Меняем статус сборки на UNSTABLE
-                        currentBuild.result = 'NOT BUILD'
+                        currentBuild.result = 'UNSTABLE'
                     }
                 }
             }
