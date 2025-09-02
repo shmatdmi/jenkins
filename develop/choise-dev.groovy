@@ -3,22 +3,10 @@ pipeline {
 
     parameters { // Список параметров, задаваемых вручную
         choice(name: 'ENVIRONMENT', choices: ['dev', 'test', 'prod'], description: 'Выберите окружение')
-        booleanParam(name: 'RUN_TESTS', defaultValue: true, description: 'Запустить тесты?')
     }
 
     stages {
-        stage('Подготовка') {
-            steps {
-                echo "Подготовительный этап..."
-                script {
-                    if ("${params.RUN_TESTS}") {
-                        echo 'yes' // Установка зависимостей
-                    }
-                }
-            }
-        }
-        
-        stage('Сборка') {
+        stage('prod') {
             when {
                 expression { return params.ENVIRONMENT == 'prod' } // Запускаем сборку только для dev/test
             }
@@ -27,21 +15,21 @@ pipeline {
             }
         }
         
-        stage('Тестирование') {
+        stage('test') {
             when {
-                expression { return "${params.RUN_TESTS}" && params.ENVIRONMENT == 'test' } // Тестируем только тестовое окружение
-            }
-            steps {
-                echo "2 params"
-            }
-        }
-        
-        stage('Развертывание') {
-            when {
-                expression { return params.ENVIRONMENT == 'test' } // Развёртывание выполняется только в продакшене
+                expression { return params.ENVIRONMENT == 'test' } // Запускаем сборку только для dev/test
             }
             steps {
                 echo "choise: test"
+            }
+        }
+        
+        stage('dev') {
+            when {
+                expression { return params.ENVIRONMENT == 'dev' } // Запускаем сборку только для dev/test
+            }
+            steps {
+                echo "choise: dev"
             }
         }
     }
