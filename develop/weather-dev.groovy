@@ -1,8 +1,6 @@
 pipeline {
     agent any
-    triggers {
-        cron('1 7-23/3 * * *')
-    }
+    
     environment {
         APPLICATION_NAME="msk"
         MAIL="sberlinux@ya.ru"
