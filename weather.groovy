@@ -95,7 +95,7 @@ pipeline {
     }
     post {
         cleanup {
-                cleanWs disableDeferredWipeout: true, deleteDirs: true
+                cleanWs()
         }
         success {
             mail to: "${env.MAIL}",
