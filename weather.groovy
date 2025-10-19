@@ -103,7 +103,7 @@ pipeline {
         }
         success {
             mail to: "${env.MAIL}",
-            subject: "Погода в Москве сейчас",
+            subject: "Погода в Москве",
             body: """Температура: ${env.TEMP}, Скорость ветра: ${env.WIND}, На улице: ${env.MAIN_POST}"""
         }
         failure {
