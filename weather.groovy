@@ -108,7 +108,7 @@ pipeline {
         }
         failure {
             mail to: "${env.MAIL}",
-            subject: "Failure project - Jenkins Pipeline: ${currentBuild.fullDisplayName}",
+            subject: "Failure project  - Jenkins Pipeline: ${currentBuild.fullDisplayName}",
             body: "Failure project - Jenkins Pipeline: ${currentBuild.fullDisplayName}"
             echo 'Im failed'
         }
