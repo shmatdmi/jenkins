@@ -34,7 +34,7 @@ pipeline {
                     // Предполагаем, что json хранится в файле
                     def jsonContent = readFile(file: "./data/${APPLICATION_NAME}-weather.json")
                     echo "\033[32m==========================json==========================\033[0m"
-                    echo ${jsonContent}
+                    echo "${jsonContent}"
                     // Парсим JSON в объект
                     def data = readJSON text: jsonContent
                     echo "\033[32m==========================Map==========================\033[0m"
