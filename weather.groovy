@@ -35,6 +35,8 @@ pipeline {
                     def jsonContent = readFile(file: "./data/${APPLICATION_NAME}-weather.json")
                     // Парсим JSON в объект
                     def data = readJSON text: jsonContent
+                    echo "\033[32m==========================Map==========================\033[0m"
+                    echo "${data}"
                     echo "Temp: ${data.main.temp}"
                     echo "Wind: ${data.wind.speed}"
                     echo "City: ${data.name}"
