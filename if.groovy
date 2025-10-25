@@ -67,13 +67,6 @@ pipeline {
                 }
             }
         }
-        stage('Other') {
-            steps {
-                echo "Starting release on $params.BRANCH_TO_SCAN branch" // пример вывода параметра
-                echo "Environment example: $env.REPOSITORY_NAME"
-                echo "Environment example: $env.TEMP"
-            }
-        }
     }
     post {
         cleanup {

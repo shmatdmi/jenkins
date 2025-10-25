@@ -62,7 +62,7 @@ pipeline {
             }
             when {
                 expression {
-                    return params.if //шаг проверяет нужно ли выпорлняться, задаем это при сборке с параметрами
+                    return params.if //шаг проверяет нужно ли выполняться, задаем это при сборке с параметрами
                 }
             }
             steps {
@@ -100,6 +100,7 @@ pipeline {
                         println x * 3 //вывести результат умножения и перенести строку
                         int count = 5 //добавить числовую переменную
                         echo "$count"
+                        echo "Starting release on $params.BRANCH_TO_SCAN branch" // пример вывода параметра
                     }
                 }
                 echo "\033[32m========================Global envirenments====================\033[0m"

@@ -1,4 +1,4 @@
-dima = 123
+// dima = 'name'
 
 pipeline {
     agent any
@@ -47,8 +47,8 @@ pipeline {
                     env.META_DATA = "${data.weather.join(', ')}"
                     env.MAIN = "${data['weather'][0]['main']}"               
                     echo "Global variable: ${env.MAIN}"
-                    dima = '12345' //пример работы с переменными, эта доступна только в текущем шаге, для её переноа в следующий шаг, нужно объявить её заранее, в самом начале pipeline
-                    env.TEST = "${dima}" //
+                    def dima = '12345' //пример работы с переменными, эта доступна только в текущем шаге, для её переноа в следующий шаг, нужно объявить её заранее, в самом начале pipeline
+                    env.TEST = "${dima}" // эту переменную можно использовать в юбом из следующих stage
                     echo "def: ${dima}"
                     echo "env: ${env.TEST}"
                     
@@ -57,7 +57,7 @@ pipeline {
         }
         stage('if') {
             steps {
-                echo "def_preview_stage: ${dima}"
+               // echo "def_preview_stage: ${dima}" для использования этой переменной, нужно объявить её в начале pipeline
                 echo "env_preview_stage: ${env.TEST}" //использую переменную из предидущего шага
                 script {
                     if (env.MAIN == 'Clear') {
