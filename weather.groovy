@@ -50,6 +50,10 @@ pipeline {
                     env.META_DATA = "${data.weather.join(', ')}" 
                     env.MAIN = "${data['weather'][0]['main']}"             
                     echo "Global variable: ${env.TEMP}"
+                    def dima = '12345'
+                    env.TEST = "${dima}"
+                    echo "def: ${dima}"
+                    echo "env: ${env.TEST}"
                     
                 }
             }
