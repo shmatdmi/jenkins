@@ -1,3 +1,5 @@
+dima = 123
+
 pipeline {
     agent any
     
@@ -45,7 +47,7 @@ pipeline {
                     env.META_DATA = "${data.weather.join(', ')}"
                     env.MAIN = "${data['weather'][0]['main']}"               
                     echo "Global variable: ${env.MAIN}"
-                    def dima = '12345' //пример работы с переменными, эта доступна только в текущем шаге, для её переноа в следующий шаг, нужно объявить её заранее, в самом начале pipeline
+                    dima = '12345' //пример работы с переменными, эта доступна только в текущем шаге, для её переноа в следующий шаг, нужно объявить её заранее, в самом начале pipeline
                     env.TEST = "${dima}" //
                     echo "def: ${dima}"
                     echo "env: ${env.TEST}"
