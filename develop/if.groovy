@@ -1,9 +1,5 @@
 pipeline {
     agent any
-
-    triggers {
-        cron('1 5 * * *')
-    }
     
     environment {
       APPLICATION_NAME="myapp"
