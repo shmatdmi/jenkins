@@ -12,9 +12,7 @@ pipeline {
       ALREADY_EXISTS="false"
       MAIL="sberlinux@ya.ru"
     }
-    triggers {
-        cron('H 12 */3 * *')
-    }
+    
     options {
         timestamps()
         ansiColor('xterm')
