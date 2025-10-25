@@ -55,7 +55,7 @@ pipeline {
         }
         stage('if') {
             steps {
-                echo "env: ${env.TEST}"
+                echo "env_preview_stage: ${env.TEST}"
                 script {
                     if (env.MAIN == 'Clear') {
                         env.MAIN_POST = "Ясно"
