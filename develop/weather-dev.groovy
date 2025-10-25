@@ -45,8 +45,8 @@ pipeline {
                     env.META_DATA = "${data.weather.join(', ')}"
                     env.MAIN = "${data['weather'][0]['main']}"               
                     echo "Global variable: ${env.MAIN}"
-                    def dima = '12345'
-                    env.TEST = "${dima}"
+                    def dima = '12345' //пример работы с переменными, эта доступна только в текущем шаге, для её переноа в следующий шаг, нужно объявить её заранее, в самом начале pipeline
+                    env.TEST = "${dima}" //
                     echo "def: ${dima}"
                     echo "env: ${env.TEST}"
                     
@@ -55,6 +55,7 @@ pipeline {
         }
         stage('if') {
             steps {
+                echo "env: ${env.TEST}"
                 script {
                     if (env.MAIN == 'Clear') {
                         env.MAIN_POST = "Ясно"
