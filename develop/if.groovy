@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     triggers {
-        cron('1 7-23/5 * * *')
+        cron('1 5 * * *')
     }
     
     environment {
@@ -12,7 +12,7 @@ pipeline {
       ALREADY_EXISTS="false"
       MAIL="sberlinux@ya.ru"
     }
-    
+
     options {
         timestamps()
         ansiColor('xterm')
