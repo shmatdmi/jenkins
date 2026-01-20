@@ -60,7 +60,7 @@ pipeline {
                         env.MAIN_POST = "Ясно"
                     } else if (env.MAIN == 'Rain') {
                         env.MAIN_POST = "Дождь"
-                    } else if (env.MAIN == 'light snow') {
+                    } else if (env.MAIN == 'Snow') {
                         env.MAIN_POST = "Небольшой снег"                        
                     } else if (env.MAIN == 'Clouds') {
                         env.MAIN_POST = "Облачно"
