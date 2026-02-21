@@ -42,7 +42,7 @@ pipeline {
                     env.DAY = "${dividedResult}"
                     env.COUNT = "${result}"
 
-                    echo "Результат SQL-запроса: ${result}, поделённый на 2: ${dividedResult}"
+                    echo "Результат SQL-запроса: ${result}, поделённый на 7: ${dividedResult}"
 
                   }
               }
@@ -55,7 +55,7 @@ pipeline {
         success {
             mail to: "${env.MAIL}",
             subject: "Спорт за неделю",
-            body: """Отжмания всего: ${env.COUNT}, Отжимания в среднем за день: ${env.DAY}"""
+            body: """${params.TYPE} всего: ${env.COUNT}, ${params.TYPE} в среднем за день: ${env.DAY}"""
         }
         failure {
             mail to: "${env.MAIL}",
