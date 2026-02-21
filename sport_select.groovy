@@ -29,7 +29,7 @@ pipeline {
                     )]) {
                         sh """
                             PGPASSWORD=\"\$DB_PASS\" psql -h ${POSTGRES_HOST} -p ${POSTGRES_PORT} -U \"\$DB_USER\" -d ${POSTGRES_DBNAME} -w <<EOF
-                            select count(*) from public.stat_sport;
+                            select count(*) from public.stat_sport where type_sport = '${params.TYPE}';
                             EOF
                         """
                     }
