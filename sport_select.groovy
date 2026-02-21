@@ -35,8 +35,15 @@ pipeline {
                               "
                           """).trim()
                       }
-                      echo "Результат SQL-запроса: ${result}"
-                      env.COUNT = "${result}"
+                    // Преобразование строки в целое число и деление пополам
+                    def dividedResult = Integer.parseInt(result) / 7
+
+                    // Сохранение результата деления в переменную окружения COUNT
+                    env.DAY = "${dividedResult}"
+                    env.COUNT = "${result}"
+
+                    echo "Результат SQL-запроса: ${result}, поделённый на 2: ${dividedResult}"
+
                   }
               }
           }
@@ -48,7 +55,7 @@ pipeline {
         success {
             mail to: "${env.MAIL}",
             subject: "Спорт за неделю",
-            body: """Отжмания общие: ${env.COUNT}, Отжимания в среднем за день: ${env.COUNT}"""
+            body: """Отжмания всего: ${env.COUNT}, Отжимания в среднем за день: ${env.DAY}"""
         }
         failure {
             mail to: "${env.MAIL}",
