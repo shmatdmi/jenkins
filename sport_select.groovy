@@ -36,6 +36,7 @@ pipeline {
                           """).trim()
                       }
                       echo "Результат SQL-запроса: ${result}"
+                      env.COUNT = "${result}"
                   }
               }
           }
@@ -47,7 +48,7 @@ pipeline {
         success {
             mail to: "${env.MAIL}",
             subject: "Спорт за неделю",
-            body: """Отжмания общие: ${result}, Отжимания в среднем за день: ${result}"""
+            body: """Отжмания общие: ${env.COUNT}, Отжимания в среднем за день: ${env.COUNT}"""
         }
         failure {
             mail to: "${env.MAIL}",
