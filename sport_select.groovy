@@ -29,7 +29,7 @@ pipeline {
                     )]) {
                         sh """
                             PGPASSWORD=\"\$DB_PASS\" psql -h ${POSTGRES_HOST} -p ${POSTGRES_PORT} -U \"\$DB_USER\" -d ${POSTGRES_DBNAME} -w <<EOF
-                            select SUM(count_sport) from public.stat_sport where type_sport = '${params.TYPE}' AND created_at >= NOW() - INTERVAL '7 days';;
+                            select SUM(count_sport) from public.stat_sport where type_sport = '${params.TYPE}' AND create_date >= NOW() - INTERVAL '7 days';
                             EOF
                         """
                     }
