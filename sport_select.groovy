@@ -7,6 +7,7 @@ pipeline {
           POSTGRES_DBNAME     = 'postgres_db'
           POSTGRES_USERNAME = credentials('postgres_user')
           POSTGRES_PASSWORD = credentials('postgres_password')
+          MAIL="sberlinux@ya.ru"
       }
 
       options {
@@ -39,9 +40,20 @@ pipeline {
               }
           }
       }
-      post {
-          cleanup {
-              cleanWs()
-          }
-      }
+    post {
+        cleanup {
+                cleanWs()
+        }
+        success {
+            mail to: "${env.MAIL}",
+            subject: "Спорт за неделю",
+            body: """Отжмания общие: ${result}, Отжимания в среднем за день: ${result}"""
+        }
+        failure {
+            mail to: "${env.MAIL}",
+            subject: "Failure project - Jenkins Pipeline: ${currentBuild.fullDisplayName}",
+            body: "Failure project - Jenkins Pipeline: ${currentBuild.fullDisplayName}"
+            echo 'Im failed'
+        }
+    }
 }
