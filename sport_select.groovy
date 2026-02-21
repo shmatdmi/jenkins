@@ -35,8 +35,8 @@ pipeline {
                               "
                           """).trim()
                       }
-                    // Преобразование строки в целое число и деление пополам
-                    def dividedResult = Integer.parseInt(result) / 7
+                    // Целочисленное деление на 7
+                    def dividedResult = Integer.parseInt(result).intdiv(7)
 
                     // Сохранение результата деления в переменную окружения COUNT
                     env.DAY = "${dividedResult}"
