@@ -20,7 +20,7 @@ pipeline {
         string(name: 'COUNT', defaultValue: '39', trim: true, description: 'Количество повторений')
         string(name: 'LOCATION', defaultValue: 'Очаково', trim: true, description: 'Место выполнения упражнения')
         string(name: 'TIME', defaultValue: '1', trim: true, description: 'Время выполнения')
-        string(name: 'REPEAT_TIMES', defaultValue: '2', trim: true, description: 'Количество повторений сборки')
+        string(name: 'REPEAT_TIMES', defaultValue: '1', trim: true, description: 'Количество повторений сборки')
     }
 
     stages {
