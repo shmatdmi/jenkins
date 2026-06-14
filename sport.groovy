@@ -24,6 +24,17 @@ pipeline {
     }
 
     stages {
+        stage('Setup SSH') {
+            steps {
+                sh '''
+                    mkdir -p /root/.ssh
+                    ssh-keyscan -t ed25519 github.com >> /root/.ssh/known_hosts 2>&1
+                    ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts 2>&1
+                    chmod 700 /root/.ssh
+                    chmod 600 /root/.ssh/known_hosts
+                '''
+            }
+        }
         stage('Database Update') {
             steps {
                 script {
