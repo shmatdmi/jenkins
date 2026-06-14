@@ -1,9 +1,0 @@
-club: spartak,
-name: dima
-city: #array
-  - Moscow
-  - Paris
-json_arrey: [dima, max]
-contry: #object
-  name1: Russia
-  name2: UK
