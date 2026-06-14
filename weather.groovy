@@ -31,12 +31,10 @@ pipeline {
                     sh "mkdir ./data"
                     sh "curl 'https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=ba23e3e7888484e7a26b57b215d65200&units=metric' > ./data/${APPLICATION_NAME}-weather.json"
                     
-                    // Предполагаем, что json хранится в файле
                     def jsonContent = readFile(file: "./data/${APPLICATION_NAME}-weather.json")
                     echo "\033[32m==========================json==========================\033[0m"
                     echo "${jsonContent}"
                     
-                    // Парсим JSON в объект
                     def data = readJSON text: jsonContent
                     echo "\033[32m==========================Map==========================\033[0m"
                     echo "${data}"
@@ -44,20 +42,27 @@ pipeline {
                     echo "Wind: ${data.wind.speed}"
                     echo "City: ${data.name}"
                     
-                    // ✅ ИСПРАВЛЕНО: Безопасное преобразование JSONArray в String через List
-                    def weatherList = data.weather as List
-                    def weatherString = weatherList.join(', ')
-                    echo "Weather: ${weatherString}"
+                    // ✅ БЕЗОПАСНО: Ручное преобразование JSONArray в строку
+                    // Вместо data.weather.join(', ') используем цикл
+                    def weatherText = ""
+                    def weatherArray = data.weather
+                    for (int i = 0; i < weatherArray.size(); i++) {
+                        def item = weatherArray[i]
+                        weatherText += item.main
+                        if (i < weatherArray.size() - 1) {
+                            weatherText += ", "
+                        }
+                    }
+                    echo "Weather: ${weatherText}"
                     
-                    echo "Main: ${data['weather'][0]['main']}"
+                    def mainWeather = data['weather'][0]['main']
+                    echo "Main: ${mainWeather}"
                     
                     env.TEMP = "${data.main.temp}"
                     env.WIND = "${data.wind.speed}"
                     env.CITY = "${data.name}"
-                    
-                    // ✅ ИСПРАВЛЕНО: Используем безопасную переменную вместо прямого вызова join
-                    env.META_DATA = weatherString
-                    env.MAIN = "${data['weather'][0]['main']}"             
+                    env.META_DATA = weatherText  // ✅ Используем безопасную переменную
+                    env.MAIN = mainWeather            
                     echo "Global variable: ${env.TEMP}"                    
                 }
             }
