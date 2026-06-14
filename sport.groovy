@@ -17,7 +17,7 @@ pipeline {
     parameters {
         // Параметры упражнений
         choice(name: 'TYPE', choices: ['Отжимания', 'Подтягивания', 'Пресс','Приседания', 'Бег'], description: 'Выберите вид упражнения')
-        string(name: 'COUNT', defaultValue: '39', trim: true, description: 'Количество повторений')
+        string(name: 'COUNT', defaultValue: '40', trim: true, description: 'Количество повторений')
         string(name: 'LOCATION', defaultValue: 'Очаково', trim: true, description: 'Место выполнения упражнения')
         string(name: 'TIME', defaultValue: '1', trim: true, description: 'Время выполнения')
         string(name: 'REPEAT_TIMES', defaultValue: '1', trim: true, description: 'Количество повторений сборки')
