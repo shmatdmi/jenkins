@@ -39,6 +39,8 @@ pipeline {
             sshagent(['ssh-dima']) {
             sh "git checkout ${env.BRANCH_TO_SCAN}"
             sh 'git remote set-url origin git@github.com:shmatdmi/jenkins.git'
+            sh 'mkdir -p ~/.ssh'
+            sh 'chmod 700 ~/.ssh'
             sh 'ssh-keyscan -H github.com >> ~/.ssh/known_hosts'
             sh 'git config user.email "jenkins@example.com"'
             sh 'git config user.name "Jenkins CI"'
