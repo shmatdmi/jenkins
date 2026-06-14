@@ -38,6 +38,9 @@ pipeline {
             echo "\033[32m==========================New commit stage==========================\033[0m"
             sshagent(['ssh-dima']) {
             sh "git checkout ${env.BRANCH_TO_SCAN}"
+            sh 'git remote set-url origin git@github.com:shmatdmi/jenkins.git'
+            sh 'git config user.email "jenkins@example.com"'
+            sh 'git config user.name "Jenkins CI"'
             writeFile file: 'code.groovy', text: "echo '${new Date()} [${env.BUILD_NUMBER}]'\necho '${env.BRANCH_TO_SCAN} of ${env.GIT_URL}'\necho '${UUID.randomUUID().toString()}'"
             sh 'git add code.groovy'
             sh "git commit -am \"Auto #${env.BUILD_NUMBER}\""
