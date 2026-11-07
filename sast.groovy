@@ -15,61 +15,31 @@ def githubMetadata(String path, String filename) {
                 "https://api.github.com$SAST_GITHUB_API_PATH"
         ''').trim()
         if (status != '200') {
-            error("Не удалось проверить размер или ветку через GitHub API: HTTP ${status}. Проверьте URL, BRANCH и credentials для GitHub API. Загрузка кода не выполнялась.")
+            error("Не удалось получить ветку через GitHub API: HTTP ${status}. Проверьте URL, BRANCH и credentials для GitHub API. ZIP не скачивался.")
         }
         return readJSON(file: "${env.SAST_TEMP_DIR}/${filename}", returnPojo: true)
     }
 }
 
-def checkRepositorySize() {
+def prepareGithubArchive() {
     def repository = env.SAST_REPOSITORY_URL
         .replaceFirst(/(?i)^https?:\/\/github\.com(?::(?:443|80))?\//, '')
         .replaceFirst(/(?i)^ssh:\/\/(?:[A-Za-z0-9._-]+@)?github\.com(?::22)?\//, '')
         .replaceFirst(/(?i)^[A-Za-z0-9._-]+@github\.com:/, '')
         .replaceFirst(/\/$/, '').replaceFirst(/\.git$/, '')
     if (!(repository ==~ /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/)) {
-        error('Проверка размера до загрузки поддерживается для github.com. Для этого Git-сервера размер определить нельзя; загрузка кода не выполнялась.')
-    }
-
-    long limitBytes = 100L * 1024L * 1024L
-    def metadata = githubMetadata("/repos/${repository}", 'repository-metadata.json')
-    if (!(metadata.size instanceof Number) || metadata.size < 0) {
-        error('GitHub API не вернул размер репозитория. Загрузка кода не выполнялась.')
-    }
-    long gitBytes = metadata.size.longValue() * 1024L
-    metadata = null
-    echo "Размер Git-репозитория по GitHub API: ${gitBytes} байт (${Math.round((double)(gitBytes / 1048576.0 * 100.0)) / 100.0} МБ). Лимит: 100 МБ."
-    if (gitBytes > limitBytes) {
-        error('Репозиторий больше 100 МБ. Загрузка репозитория и сканирование SAST не выполняются.')
+        error('Загрузка ZIP поддерживается для github.com. Укажите URL репозитория GitHub.')
     }
 
     def branch = java.net.URLEncoder.encode(env.SAST_BRANCH, 'UTF-8').replace('+', '%20')
     def commit = githubMetadata("/repos/${repository}/branches/${branch}", 'branch-metadata.json')
-    env.SAST_CHECKED_COMMIT = commit.commit?.sha ?: ''
-    def treeSha = commit.commit?.commit?.tree?.sha ?: ''
+    env.SAST_COMMIT = commit.commit?.sha ?: ''
     commit = null
-    if (!(env.SAST_CHECKED_COMMIT ==~ /^[0-9a-f]{40}$/) || !(treeSha ==~ /^[0-9a-f]{40}$/)) {
-        error('GitHub API не вернул коммит и дерево выбранной ветки. Загрузка кода не выполнялась.')
+    if (!(env.SAST_COMMIT ==~ /^[0-9a-f]{40}$/)) {
+        error('GitHub API не вернул коммит выбранной ветки. ZIP не скачивался.')
     }
-    def tree = githubMetadata("/repos/${repository}/git/trees/${treeSha}?recursive=1", 'tree-metadata.json')
-    if (tree.truncated != false || !(tree.tree instanceof List)) {
-        error('GitHub API вернул неполный список файлов: проверить размер нельзя. Загрузка кода не выполнялась.')
-    }
-    long snapshotBytes = 0L
-    for (def entry in tree.tree) {
-        if (entry.type == 'blob') {
-            if (!(entry.size instanceof Number) || entry.size < 0) {
-                error('Для одного из файлов отсутствует размер. Загрузка кода не выполнялась.')
-            }
-            snapshotBytes += entry.size.longValue()
-        }
-    }
-    tree = null
-    echo "Размер файлов ветки ${env.SAST_BRANCH}: ${snapshotBytes} байт (${Math.round((double)(snapshotBytes / 1048576.0 * 100.0)) / 100.0} МБ). Лимит: 100 МБ."
-    if (snapshotBytes > limitBytes) {
-        error('Файлы выбранной ветки занимают больше 100 МБ. Загрузка репозитория и сканирование SAST не выполняются.')
-    }
-    echo "Проверка размера пройдена. Будет загружен проверенный коммит ${env.SAST_CHECKED_COMMIT}."
+    env.SAST_ARCHIVE_URL = "https://api.github.com/repos/${repository}/zipball/${env.SAST_COMMIT}"
+    echo "Будет загружен только ZIP коммита ${env.SAST_COMMIT}. Git clone, checkout и загрузка объектов Git LFS не используются."
 }
 
 pipeline {
@@ -88,10 +58,8 @@ pipeline {
                description: 'URL Git-репозитория для сканирования: HTTPS или SSH')
         string(name: 'BRANCH', defaultValue: 'educations', trim: true,
                description: 'Название ветки для сканирования, например main или feature/my-branch')
-        string(name: 'GIT_CREDENTIALS_ID', defaultValue: '', trim: true,
-               description: 'ID Jenkins credentials для Git. Для публичного репозитория оставьте пустым')
         string(name: 'GITHUB_API_CREDENTIALS_ID', defaultValue: '', trim: true,
-               description: 'Необязательно: Username with password для GitHub API, пароль — PAT. Для HTTPS по умолчанию используется GIT_CREDENTIALS_ID')
+               description: 'Для закрытого GitHub: ID Username with password, пароль — PAT. Для публичного репозитория оставьте пустым')
         string(name: 'PROJECT_NAME', defaultValue: 'test new image', trim: true,
                description: 'Название проекта в SAST')
         string(name: 'RELEASE', defaultValue: '', trim: true,
@@ -197,43 +165,74 @@ pipeline {
                             ''')
                         }
                     }
-                    checkRepositorySize()
+                    prepareGithubArchive()
                 }
-                dir('sast-source') {
-                    deleteDir()
-                    script {
-                        def remote = [
-                            url: env.SAST_REPOSITORY_URL,
-                            refspec: "+${env.SAST_CHECKED_COMMIT}:refs/remotes/origin/sast-checked"
-                        ]
-                        if (params.GIT_CREDENTIALS_ID?.trim()) {
-                            remote.credentialsId = params.GIT_CREDENTIALS_ID.trim()
-                        }
-                        echo 'Загрузка исходников: до 4 минут. Автоматическая загрузка Git LFS отключена.'
-                        def source
-                        timeout(time: 4, unit: 'MINUTES') {
-                            withEnv(['GIT_LFS_SKIP_SMUDGE=1', 'GIT_TERMINAL_PROMPT=0']) {
-                                source = checkout(
-                                    changelog: false,
-                                    poll: false,
-                                    scm: [$class: 'GitSCM',
-                                          branches: [[name: 'refs/remotes/origin/sast-checked']],
-                                          userRemoteConfigs: [remote],
-                                          extensions: [[$class: 'CloneOption', shallow: true, depth: 1,
-                                                        noTags: true, honorRefspec: true, timeout: 3],
-                                                       [$class: 'CheckoutOption', timeout: 2]]]
-                                )
-                            }
-                        }
-                        env.SAST_COMMIT = source.GIT_COMMIT
-                    }
-                    echo 'Упаковка исходников. Файлы Git LFS исключены из анализа.'
-                    sh(label: 'Упаковка выбранного Git-коммита', script: '''
+                timeout(time: 4, unit: 'MINUTES') {
+                    sh(label: 'Скачивание только ZIP, без Git и Git LFS', script: '''
                         set +x
                         umask 077
-                        git archive --format=zip --output="$SAST_TEMP_DIR/code.zip" HEAD -- . ':(exclude,attr:filter=lfs)'
+                        version=$(curl --version | awk 'NR == 1 {print $2}')
+                        major=${version%%.*}
+                        minor=${version#*.}
+                        minor=${minor%%.*}
+                        if ! { [ "$major" -gt 8 ] || { [ "$major" -eq 8 ] && [ "$minor" -ge 4 ]; }; }; then
+                            echo 'Для ограничения потоковой загрузки нужен curl версии 8.4 или новее.' >&2
+                            exit 1
+                        fi
+                        set --
+                        if [ -s "$SAST_TEMP_DIR/github-authorization.header" ]; then
+                            set -- --header "@$SAST_TEMP_DIR/github-authorization.header"
+                        fi
+                        echo 'Проверка размера ZIP по HTTP-заголовкам. Лимит загрузки: 100 МБ.'
+                        head_status=$(curl --silent --show-error --location --max-redirs 5 \
+                            --proto '=https' --proto-redir '=https' \
+                            --connect-timeout 10 --max-time 30 --head \
+                            --header 'Accept: application/vnd.github+json' \
+                            --header 'X-GitHub-Api-Version: 2022-11-28' \
+                            "$@" --dump-header "$SAST_TEMP_DIR/archive-headers.txt" \
+                            --output /dev/null --write-out '%{http_code}' "$SAST_ARCHIVE_URL")
+                        if [ "$head_status" != 200 ]; then
+                            echo "Не удалось проверить ZIP: HTTP $head_status. Архив не скачивался." >&2
+                            exit 1
+                        fi
+                        archive_hint=$(awk '
+                            /^HTTP\\// {size=""}
+                            tolower($1) == "content-length:" {gsub("\\r", "", $2); size=$2}
+                            END {print size}
+                        ' "$SAST_TEMP_DIR/archive-headers.txt")
+                        if [ -n "$archive_hint" ]; then
+                            echo "Заявленный размер ZIP: $archive_hint байт."
+                            if [ "$archive_hint" -gt 104857600 ]; then
+                                echo 'ZIP больше 100 МБ. Загрузка и сканирование не выполняются.' >&2
+                                exit 1
+                            fi
+                        else
+                            echo 'GitHub не сообщает размер ZIP заранее. Ограничение 100 МБ применяется во время передачи.'
+                        fi
+                        echo 'Скачивание ZIP потоком на диск, без распаковки. Дополнительные объекты Git LFS не запрашиваются.'
+                        if status=$(curl --silent --show-error --location --max-redirs 5 \
+                            --proto '=https' --proto-redir '=https' \
+                            --connect-timeout 15 --max-time 180 --max-filesize 104857600 \
+                            --header 'Accept: application/vnd.github+json' \
+                            --header 'X-GitHub-Api-Version: 2022-11-28' \
+                            "$@" --output "$SAST_TEMP_DIR/code.zip" \
+                            --write-out '%{http_code}' "$SAST_ARCHIVE_URL"); then
+                            if [ "$status" != 200 ]; then
+                                echo "Не удалось скачать ZIP: HTTP $status." >&2
+                                exit 1
+                            fi
+                        else
+                            curl_exit=$?
+                            rm -f "$SAST_TEMP_DIR/code.zip"
+                            if [ "$curl_exit" -eq 63 ]; then
+                                echo 'ZIP больше 100 МБ. Загрузка остановлена; сканирование не выполняется.' >&2
+                            else
+                                echo "Ошибка скачивания ZIP, код curl: $curl_exit." >&2
+                            fi
+                            exit 1
+                        fi
                         archive_bytes=$(wc -c < "$SAST_TEMP_DIR/code.zip")
-                        echo "ZIP-архив подготовлен: $archive_bytes байт."
+                        echo "ZIP-архив скачан: $archive_bytes байт."
                         if [ "$archive_bytes" -gt 26214400 ]; then
                             echo 'Размер ZIP превышает ограничение SAST API: 25 МБ.' >&2
                             exit 1
