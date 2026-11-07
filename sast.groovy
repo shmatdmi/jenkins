@@ -251,6 +251,7 @@ pipeline {
                             --form "archive=@$SAST_TEMP_DIR/code.zip;type=application/zip" \
                             --form-string "release=$SAST_RELEASE" \
                             --form-string "projectName=$SAST_PROJECT_NAME" \
+                            --form-string "commitHash=$SAST_COMMIT" \
                             --output sast-result.json \
                             --write-out '%{http_code}' \
                             "$SAST_URL/api/scans/archive")
@@ -265,7 +266,11 @@ pipeline {
                     if (!result.scanId || result.summary == null) {
                         error('Ответ SAST не содержит scanId или summary.')
                     }
+                    if (result.commitHash != env.SAST_COMMIT) {
+                        error('Хеш коммита в ответе SAST не совпадает с коммитом проверенного ZIP.')
+                    }
                     echo "Сканирование ${result.scanId}: файлов ${result.filesScanned}, найдено проблем ${result.summary.total}."
+                    echo "Проверенный коммит: ${result.commitHash}."
                     currentBuild.description = "${env.SAST_RELEASE}: ${env.SAST_BRANCH}, ${result.summary.total} findings"
                 }
                 archiveArtifacts artifacts: 'sast-result.json', fingerprint: true

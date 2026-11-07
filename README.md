@@ -3,6 +3,11 @@ Repository for Jenkins Education
 
 ## SAST
 
+The scan request includes `commitHash` from the exact commit used to download
+the GitHub ZIP. The pipeline checks that the SAST response returns that same
+hash, so the saved scan, history, UI, and exported reports identify the source
+revision that was analyzed.
+
 Job `sast` loads `sast.groovy` from branch `educations` in this repository and
 uses credential `sast-login` (Username with password) for the SAST API.
 
