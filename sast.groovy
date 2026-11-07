@@ -10,10 +10,10 @@ pipeline {
     }
 
     parameters {
-        string(name: 'PROJECT_NAME', defaultValue: 'jenkins', trim: true,
+        string(name: 'PROJECT_NAME', defaultValue: 'test new image', trim: true,
                description: 'Название проекта в SAST')
         string(name: 'RELEASE', defaultValue: '', trim: true,
-               description: 'Релиз, например SAST-123. По умолчанию SAST-<номер сборки>')
+               description: 'Обязательный параметр. Укажите релиз перед запуском, например sast-104')
     }
 
     environment {
@@ -24,9 +24,9 @@ pipeline {
         stage('Получение токена') {
             steps {
                 script {
-                    env.SAST_RELEASE = params.RELEASE ?: "SAST-${env.BUILD_NUMBER}"
+                    env.SAST_RELEASE = params.RELEASE?.trim() ?: ''
                     if (!(env.SAST_RELEASE ==~ /^[A-Za-z]{2,4}-[1-9][0-9]{0,3}$/)) {
-                        error('Укажите RELEASE в формате SAST-123: от 2 до 4 латинских букв и число от 1 до 9999.')
+                        error('Перед запуском заполните обязательный параметр RELEASE, например sast-104: от 2 до 4 латинских букв и число от 1 до 9999.')
                     }
                     if (!params.PROJECT_NAME || params.PROJECT_NAME.length() > 512) {
                         error('PROJECT_NAME должен содержать от 1 до 512 символов.')
