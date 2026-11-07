@@ -38,7 +38,7 @@ def checkRepositorySize() {
     }
     long gitBytes = metadata.size.longValue() * 1024L
     metadata = null
-    echo "Размер Git-репозитория по GitHub API: ${gitBytes} байт (${Math.round(gitBytes / 1048576.0 * 100.0) / 100.0} МБ). Лимит: 100 МБ."
+    echo "Размер Git-репозитория по GitHub API: ${gitBytes} байт (${Math.round((double)(gitBytes / 1048576.0 * 100.0)) / 100.0} МБ). Лимит: 100 МБ."
     if (gitBytes > limitBytes) {
         error('Репозиторий больше 100 МБ. Загрузка репозитория и сканирование SAST не выполняются.')
     }
@@ -65,7 +65,7 @@ def checkRepositorySize() {
         }
     }
     tree = null
-    echo "Размер файлов ветки ${env.SAST_BRANCH}: ${snapshotBytes} байт (${Math.round(snapshotBytes / 1048576.0 * 100.0) / 100.0} МБ). Лимит: 100 МБ."
+    echo "Размер файлов ветки ${env.SAST_BRANCH}: ${snapshotBytes} байт (${Math.round((double)(snapshotBytes / 1048576.0 * 100.0)) / 100.0} МБ). Лимит: 100 МБ."
     if (snapshotBytes > limitBytes) {
         error('Файлы выбранной ветки занимают больше 100 МБ. Загрузка репозитория и сканирование SAST не выполняются.')
     }
